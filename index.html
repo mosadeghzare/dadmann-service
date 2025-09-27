@@ -120,96 +120,13 @@
 </head>
 <body class="bg-gray-100">
 
-    <!-- Firebase Config Page -->
-    <div id="firebaseConfigPage" class="flex items-center justify-center min-h-screen">
-        <div class="w-full max-w-lg p-8 space-y-6 bg-white rounded-lg shadow-md">
-            <div class="text-center">
-                <h1 class="text-2xl font-bold text-gray-800">تنظیمات اتصال Firebase</h1>
-                <p class="mt-2 text-md text-gray-500">لطفاً اطلاعات پروژه Firebase خود را وارد کنید.</p>
-            </div>
-            <form id="firebaseConfigForm" class="space-y-4">
-                <div>
-                    <label for="apiKey" class="block text-sm font-medium text-gray-700">API Key</label>
-                    <input id="apiKey" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
-                </div>
-                <div>
-                    <label for="authDomain" class="block text-sm font-medium text-gray-700">Auth Domain</label>
-                    <input id="authDomain" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
-                </div>
-                <div>
-                    <label for="projectId" class="block text-sm font-medium text-gray-700">Project ID</label>
-                    <input id="projectId" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
-                </div>
-                <div>
-                    <label for="storageBucket" class="block text-sm font-medium text-gray-700">Storage Bucket</label>
-                    <input id="storageBucket" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
-                </div>
-                <div>
-                    <label for="messagingSenderId" class="block text-sm font-medium text-gray-700">Messaging Sender ID</label>
-                    <input id="messagingSenderId" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
-                </div>
-                <div>
-                    <label for="appIdConfig" class="block text-sm font-medium text-gray-700">App ID</label>
-                    <input id="appIdConfig" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
-                </div>
-                <div>
-                    <button type="submit" class="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        اتصال و ادامه
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- Loading Spinner -->
     <div id="loadingSpinner" class="hidden fixed inset-0 bg-white justify-center items-center z-50">
         <div class="text-center">
             <i class="fas fa-spinner fa-spin text-4xl text-indigo-600"></i>
-            <p class="mt-4 text-gray-600">در حال بارگذاری و همگام‌سازی...</p>
+            <p class="mt-4 text-gray-600">در حال بارگذاری...</p>
         </div>
     </div>
-
-    <!-- Firebase Authentication Error Message Page -->
-    <div id="authErrorPage" class="hidden fixed inset-0 bg-gray-50 flex justify-center items-center z-50 p-4">
-        <div class="w-full max-w-2xl p-8 space-y-4 bg-white rounded-lg shadow-lg border-2 border-red-500 text-center">
-            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                 <svg class="h-6 w-6 text-red-600" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                </svg>
-            </div>
-            <h1 class="text-2xl font-bold text-red-600">اقدام لازم: تنظیمات اتصال Firebase</h1>
-            <p class="text-gray-700">
-               اتصال به پایگاه داده با خطا مواجه شد. این مشکل معمولاً به دلیل یکی از دو مورد زیر در تنظیمات پروژه Firebase شما رخ می‌دهد. لطفاً هر دو مورد را بررسی کنید:
-            </p>
-            <div class="space-y-4 text-right bg-gray-50 p-4 rounded-md border text-gray-800">
-                <div>
-                    <h2 class="font-bold text-lg mb-2">مرحله ۱: فعال‌سازی ورود ناشناس</h2>
-                    <ol class="list-decimal list-inside space-y-2 text-sm">
-                        <li>وارد <a href="https://console.firebase.google.com/" target="_blank" class="text-blue-600 font-semibold hover:underline">کنسول Firebase پروژه خود</a> و سپس بخش <b>Authentication</b> شوید.</li>
-                        <li>در لیست موجود، <b>Anonymous</b> را پیدا کرده و آن را فعال (<b>Enable</b>) کنید.</li>
-                    </ol>
-                </div>
-                <hr class="my-4">
-                <div>
-                    <h2 class="font-bold text-lg mb-2">مرحله ۲: افزودن دامنه‌های مجاز</h2>
-                     <ol class="list-decimal list-inside space-y-2 text-sm">
-                        <li>در همان بخش Authentication، به سربرگ <b>Settings</b> بروید.</li>
-                        <li>در قسمت <b>Authorized domains</b> روی دکمه <b>Add domain</b> کلیک کنید.</li>
-                        <li>هر کدام از دامنه‌های زیر را که استفاده می‌کنید، دقیقاً وارد و اضافه کنید: <br> 
-                            <code class="bg-gray-200 text-red-700 p-1 rounded-md text-xs" dir="ltr">mosadeghzare.github.io</code>
-                            <br>
-                            <code class="bg-gray-200 text-red-700 p-1 mt-1 inline-block rounded-md text-xs" dir="ltr">dadman-service.netlify.app</code>
-                        </li>
-                     </ol>
-                </div>
-            </div>
-            <p class="text-sm text-gray-500 pt-2">پس از انجام این مراحل، روی دکمه زیر کلیک کنید تا صفحه دوباره بارگذاری شود.</p>
-            <button onclick="location.reload()" class="mt-4 w-full px-4 py-2 font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                تلاش مجدد برای بارگذاری
-            </button>
-        </div>
-    </div>
-
 
     <!-- Login Page -->
     <div id="loginPage" class="hidden flex items-center justify-center min-h-screen">
@@ -528,21 +445,7 @@
         </div>
     </div>
 
-<script type="module">
-    // --- Firebase SDK Imports ---
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { 
-        getAuth, signInAnonymously, onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { 
-        getFirestore, collection, doc, onSnapshot, addDoc, setDoc, deleteDoc, query, where, getDocs, writeBatch 
-    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-    
-    
-    // --- Firebase App Instances ---
-    let app, db, auth;
-    let usersPath, projectsPath, serviceEventsPath, reportsPath;
-
+<script>
     // --- Jalaali Date Converter Utility ---
     const jalaali = (() => {
         function toJalaali(gy, gm, gd) {
@@ -616,7 +519,7 @@
         return { toJalaali, toGregorian, jalaaliMonthLength };
     })();
     
-    // --- Application State (In-memory Cache) ---
+    // --- Application State (In-memory Data) ---
     const AppState = {
         users: [],
         projects: [],
@@ -634,44 +537,22 @@
         ]
     };
     
-    // --- Initial Data for Seeding ---
+    // --- Initial Data for the App ---
     const initialData = {
          users: [
-            { username: 'admin', password: 'admin123', role: 'admin' },
-            { username: 'supervisor', password: 'sup123', role: 'supervisor' },
-            { username: 'supervisor2', password: 'sup456', role: 'supervisor' },
+            { id: 1, username: 'admin', password: 'admin123', role: 'admin' },
+            { id: 2, username: 'supervisor', password: 'sup123', role: 'supervisor' },
+            { id: 3, username: 'supervisor2', password: 'sup456', role: 'supervisor' },
         ],
         projects: [
-            { name: "دادمان یزد", group: "گروه (الف)", capacity: 100, year: 1397 },
-            { name: "ارشیا بافت 1", group: "گروه (الف)", capacity: 20, year: 1398 },
-            { name: "ارشیا بافت 2", group: "گروه (الف)", capacity: 50, year: 1399 },
-            { name: "دکتر کاجی", group: "گروه (ب)", capacity: 80, year: 1397 },
-            { name: "آرنیکا", group: "گروه (ب)", capacity: 20, year: 1401 },
-            { name: "شهداب زارچ", group: "گروه (ج)", capacity: 200, year: 1400 },
+            { id: 1, name: "دادمان یزد", group: "گروه (الف)", capacity: 100, year: 1397 },
+            { id: 2, name: "ارشیا بافت 1", group: "گروه (الف)", capacity: 20, year: 1398 },
+            { id: 3, name: "ارشیا بافت 2", group: "گروه (الف)", capacity: 50, year: 1399 },
+            { id: 4, name: "دکتر کاجی", group: "گروه (ب)", capacity: 80, year: 1397 },
+            { id: 5, name: "آرنیکا", group: "گروه (ب)", capacity: 20, year: 1401 },
+            { id: 6, name: "شهداب زارچ", group: "گروه (ج)", capacity: 200, year: 1400 },
         ]
     };
-
-    // --- Data Seeding (runs only once if database is empty) ---
-    async function seedInitialData() {
-        const usersQuery = query(collection(db, usersPath));
-        const usersSnapshot = await getDocs(usersQuery);
-        if (usersSnapshot.empty) {
-            console.log("Database is empty. Seeding initial data...");
-            const batch = writeBatch(db);
-            
-            initialData.users.forEach(user => {
-                const userRef = doc(collection(db, usersPath));
-                batch.set(userRef, user);
-            });
-            initialData.projects.forEach(project => {
-                const projectRef = doc(collection(db, projectsPath));
-                batch.set(projectRef, project);
-            });
-            
-            await batch.commit();
-            console.log("Initial data seeded successfully.");
-        }
-    }
     
     // --- Session and State Variables ---
     let currentUser = null;
@@ -686,28 +567,20 @@
 
 
     // --- Gemini API Integration ---
-    const GEMINI_API_KEY = ""; // Provided by the environment
+    const GEMINI_API_KEY = ""; // NOTE: Add your Gemini API key here if needed
     const GEMINI_TEXT_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
-    const GEMINI_TTS_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${GEMINI_API_KEY}`;
-
+    
     async function callGeminiTextAPI(prompt, images = [], buttonElement) {
+        if (!GEMINI_API_KEY) {
+            alert('کلید API برای Gemini تنظیم نشده است.');
+            return "کلید API برای Gemini تنظیم نشده است.";
+        }
         const originalButtonContent = buttonElement.innerHTML;
         buttonElement.disabled = true;
         buttonElement.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> در حال پردازش...`;
 
         try {
             const parts = [{ text: prompt }];
-            if (Array.isArray(images) && images.length > 0) {
-                images.forEach(imgBase64 => {
-                    parts.push({
-                        inlineData: {
-                            mimeType: "image/jpeg",
-                            data: imgBase64.split(',')[1] // remove the base64 prefix
-                        }
-                    });
-                });
-            }
-
             const payload = { contents: [{ parts }] };
             const response = await fetch(GEMINI_TEXT_URL, {
                 method: 'POST',
@@ -743,6 +616,10 @@
         const day = String(today.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
+    
+    function getNextId(array) {
+        return array.length > 0 ? Math.max(...array.map(item => item.id)) + 1 : 1;
+    }
 
     // --- DOM Elements ---
     const loadingSpinner = document.getElementById('loadingSpinner');
@@ -774,18 +651,16 @@
         }
     }
 
-    loginForm.addEventListener('submit', async (e) => {
+    loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         loginError.textContent = '';
         const username = e.target.username.value;
         const password = e.target.password.value;
 
-        const q = query(collection(db, usersPath), where("username", "==", username), where("password", "==", password));
-        const querySnapshot = await getDocs(q);
+        const foundUser = AppState.users.find(u => u.username === username && u.password === password);
 
-        if (!querySnapshot.empty) {
-            const userDoc = querySnapshot.docs[0];
-            currentUser = { id: userDoc.id, ...userDoc.data() };
+        if (foundUser) {
+            currentUser = foundUser;
             sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
             navigate(currentUser.role);
         } else {
@@ -796,6 +671,8 @@
     function logout() {
         currentUser = null;
         sessionStorage.removeItem('currentUser');
+        // Reset data to initial state on logout
+        initializeAppState();
         navigate('login');
     }
 
@@ -955,7 +832,7 @@
         
         tableBody.querySelectorAll('.edit-project-btn').forEach(btn => btn.addEventListener('click', e => openProjectModal(e.target.dataset.id)));
         tableBody.querySelectorAll('.delete-project-btn').forEach(btn => btn.addEventListener('click', e => {
-            const project = AppState.projects.find(p => p.id === e.target.dataset.id);
+            const project = AppState.projects.find(p => p.id == e.target.dataset.id);
             openConfirmModal('project', e.target.dataset.id, `آیا از حذف پروژه "${project.name}" اطمینان دارید؟`);
         }));
     }
@@ -975,7 +852,7 @@
 
         tableBody.querySelectorAll('.edit-user-btn').forEach(btn => btn.addEventListener('click', e => openUserModal(e.target.dataset.id)));
         tableBody.querySelectorAll('.delete-user-btn').forEach(btn => btn.addEventListener('click', e => {
-            const user = AppState.users.find(u => u.id === e.target.dataset.id);
+            const user = AppState.users.find(u => u.id == e.target.dataset.id);
             openConfirmModal('user', e.target.dataset.id, `آیا از حذف کاربر "${user.username}" اطمینان دارید؟`)
         }));
     }
@@ -1128,27 +1005,35 @@
         modal.style.display = 'flex';
     }
 
-    async function confirmAssignHandler() {
+    function confirmAssignHandler() {
         const supervisorId = document.getElementById('supervisorSelect').value;
         if (currentEventForModal && supervisorId) {
-            await addDoc(collection(db, serviceEventsPath), {
+            const newEvent = {
+                id: getNextId(AppState.serviceEvents),
                 date: currentEventForModal.date,
                 groupName: currentEventForModal.groupName,
-                supervisorId: supervisorId,
+                supervisorId: parseInt(supervisorId),
                 projects: JSON.parse(currentEventForModal.projectIds)
-            });
+            };
+            AppState.serviceEvents.push(newEvent);
+            renderCalendar(currentJalaaliDate.jy, currentJalaaliDate.jm);
             document.getElementById('assignSupervisorModal').style.display = 'none';
         }
     }
 
     // Admin Report Viewing
-    async function handleReportAction(e) {
-        const { reportId, action } = e.target.dataset;
-        await setDoc(doc(db, reportsPath, reportId), { status: action }, { merge: true });
+    function handleReportAction(e) {
+        const reportId = parseInt(e.target.dataset.reportId);
+        const action = e.target.dataset.action;
+        const report = AppState.reports.find(r => r.id === reportId);
+        if(report) {
+            report.status = action;
+        }
+        loadReportsTable();
     }
 
     function viewReport(e) {
-        const reportId = e.target.dataset.reportId;
+        const reportId = parseInt(e.target.dataset.reportId);
         const report = AppState.reports.find(r => r.id == reportId);
         if (!report) return;
 
@@ -1208,7 +1093,7 @@
         document.getElementById('projectId').value = id || '';
         document.getElementById('projectModalTitle').textContent = id ? 'ویرایش پروژه' : 'افزودن پروژه جدید';
         if(id) {
-            const project = AppState.projects.find(p => p.id === id);
+            const project = AppState.projects.find(p => p.id == id);
             document.getElementById('projectName').value = project.name;
             document.getElementById('projectGroup').value = project.group;
             document.getElementById('projectCapacity').value = project.capacity;
@@ -1217,17 +1102,25 @@
         modal.style.display = 'flex';
     }
 
-    async function saveProject(e) {
+    function saveProject(e) {
         e.preventDefault();
-        const id = document.getElementById('projectId').value;
+        const id = parseInt(document.getElementById('projectId').value);
         const projectData = {
             name: document.getElementById('projectName').value,
             group: document.getElementById('projectGroup').value,
             capacity: parseInt(document.getElementById('projectCapacity').value),
             year: parseInt(document.getElementById('projectYear').value),
         };
-        const docRef = id ? doc(db, projectsPath, id) : doc(collection(db, projectsPath));
-        await setDoc(docRef, projectData, { merge: !!id });
+
+        if(id) {
+            const index = AppState.projects.findIndex(p => p.id === id);
+            if(index > -1) AppState.projects[index] = { ...AppState.projects[index], ...projectData };
+        } else {
+            projectData.id = getNextId(AppState.projects);
+            AppState.projects.push(projectData);
+        }
+        
+        loadProjectsTable();
         document.getElementById('projectModal').style.display = 'none';
     }
     
@@ -1241,42 +1134,59 @@
         passwordInput.required = !id;
         passwordInput.placeholder = id ? 'در صورت عدم تغییر، خالی بگذارید' : '';
         if(id) {
-            const user = AppState.users.find(u => u.id === id);
+            const user = AppState.users.find(u => u.id == id);
             document.getElementById('userUsername').value = user.username;
             document.getElementById('userRole').value = user.role;
         }
         modal.style.display = 'flex';
     }
 
-    async function saveUser(e) {
+    function saveUser(e) {
         e.preventDefault();
-        const id = document.getElementById('userId').value;
+        const id = parseInt(document.getElementById('userId').value);
         const password = document.getElementById('userPassword').value;
         const userData = {
             username: document.getElementById('userUsername').value,
             role: document.getElementById('userRole').value,
         };
+        
         if (password) userData.password = password;
 
-        const docRef = id ? doc(db, usersPath, id) : doc(collection(db, usersPath));
-        await setDoc(docRef, userData, { merge: !!id });
+        if(id) {
+            const index = AppState.users.findIndex(u => u.id === id);
+            if(index > -1) {
+                if(!password) userData.password = AppState.users[index].password; // Keep old password
+                AppState.users[index] = { ...AppState.users[index], ...userData };
+            }
+        } else {
+            userData.id = getNextId(AppState.users);
+            AppState.users.push(userData);
+        }
+        
+        loadUsersTable();
         document.getElementById('userModal').style.display = 'none';
     }
 
     let itemToDelete = { type: null, id: null };
     function openConfirmModal(type, id, text = 'آیا از حذف این مورد اطمینان دارید؟') {
-        itemToDelete = { type, id };
+        itemToDelete = { type, id: parseInt(id) };
         document.getElementById('confirmModalText').textContent = text;
         document.getElementById('confirmModal').style.display = 'flex';
     }
-    async function confirmDeleteHandler() {
+    function confirmDeleteHandler() {
         if(!itemToDelete.id) return;
-        const paths = {
-            project: projectsPath,
-            user: usersPath,
-            serviceEvent: serviceEventsPath
-        };
-        await deleteDoc(doc(db, paths[itemToDelete.type], itemToDelete.id));
+        
+        if(itemToDelete.type === 'project') {
+            AppState.projects = AppState.projects.filter(p => p.id !== itemToDelete.id);
+            loadProjectsTable();
+        } else if (itemToDelete.type === 'user') {
+            AppState.users = AppState.users.filter(u => u.id !== itemToDelete.id);
+            loadUsersTable();
+        } else if (itemToDelete.type === 'serviceEvent') {
+            AppState.serviceEvents = AppState.serviceEvents.filter(e => e.id !== itemToDelete.id);
+            renderCalendar(currentJalaaliDate.jy, currentJalaaliDate.jm);
+        }
+        
         document.getElementById('confirmModal').style.display = 'none';
     }
 
@@ -1379,7 +1289,7 @@
 
     function renderReportForm(projectId) {
         currentReportData = { projectId, checklist: {}, measurements: [], defectsDescription: '', photos: [] };
-        const project = AppState.projects.find(p => p.id === projectId);
+        const project = AppState.projects.find(p => p.id == projectId);
         const formContainer = document.getElementById('reportFormContainer');
         
         const checklistHtml = AppState.checklistItems.map((item, index) => {
@@ -1417,7 +1327,7 @@
         showSupervisorPage('reportForm');
     }
     
-    async function submitReport(e) {
+    function submitReport(e) {
         e.preventDefault();
         
         AppState.checklistItems.forEach((item, index) => {
@@ -1426,8 +1336,9 @@
         });
         currentReportData.defectsDescription = document.getElementById('defectsDescription').value;
         
-        await addDoc(collection(db, reportsPath), {
-            projectId: currentReportData.projectId,
+        const newReport = {
+            id: getNextId(AppState.reports),
+            projectId: parseInt(currentReportData.projectId),
             supervisorId: currentUser.id,
             date: getTodayDateString(),
             status: 'pending',
@@ -1435,128 +1346,28 @@
                 checklist: currentReportData.checklist,
                 defectsDescription: currentReportData.defectsDescription
             }
-        });
+        };
+        AppState.reports.push(newReport);
 
         alert('گزارش با موفقیت ثبت شد!');
         showSupervisorPage('taskList');
     }
 
-    // --- REAL-TIME LISTENERS ---
-    function setupRealtimeListeners() {
-        onSnapshot(query(collection(db, usersPath)), (snapshot) => {
-            AppState.users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if (currentUser?.role === 'admin' && !document.getElementById('adminUsers').classList.contains('hidden')) loadUsersTable();
-        });
-
-        onSnapshot(query(collection(db, projectsPath)), (snapshot) => {
-            AppState.projects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if (currentUser?.role === 'admin' && !document.getElementById('adminProjects').classList.contains('hidden')) loadProjectsTable();
-        });
-
-        onSnapshot(query(collection(db, serviceEventsPath)), (snapshot) => {
-            AppState.serviceEvents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if (currentUser?.role === 'admin' && !document.getElementById('adminScheduler').classList.contains('hidden')) {
-                renderCalendar(currentJalaaliDate.jy, currentJalaaliDate.jm);
-            }
-            if (currentUser?.role === 'supervisor' && !document.getElementById('taskList').classList.contains('hidden')) {
-                loadSupervisorTasks();
-            }
-        });
-
-        onSnapshot(query(collection(db, reportsPath)), (snapshot) => {
-            AppState.reports = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if (currentUser?.role === 'admin') {
-                if (!document.getElementById('adminDashboard').classList.contains('hidden')) loadDashboardCharts();
-                if (!document.getElementById('adminReports').classList.contains('hidden')) loadReportsTable();
-            }
-            if(currentUser?.role === 'supervisor' && !document.getElementById('taskList').classList.contains('hidden')) {
-                loadSupervisorTasks();
-            }
-        });
+    function initializeAppState() {
+        AppState.users = JSON.parse(JSON.stringify(initialData.users));
+        AppState.projects = JSON.parse(JSON.stringify(initialData.projects));
+        AppState.serviceEvents = [];
+        AppState.reports = [];
     }
 
-    // --- App Initialization Function ---
-    async function initializeWithConfig(config) {
-        try {
-            const appId = 'dadmann-manual-config'; // A consistent ID for manual configurations.
-
-            if (!config || !config.apiKey) {
-                 throw new Error("Firebase configuration is missing or invalid.");
-            }
-
-            // Define dynamic Firestore paths
-            usersPath = `/artifacts/${appId}/public/data/users`;
-            projectsPath = `/artifacts/${appId}/public/data/projects`;
-            serviceEventsPath = `/artifacts/${appId}/public/data/serviceEvents`;
-            reportsPath = `/artifacts/${appId}/public/data/reports`;
-
-            // Initialize Firebase services
-            app = initializeApp(config);
-            db = getFirestore(app);
-            auth = getAuth(app);
-            
-            // Wait for authentication state to be determined
-            const authResult = await new Promise((resolve, reject) => {
-                const unsubscribe = onAuthStateChanged(auth, async (user) => {
-                    unsubscribe();
-                    if (user) {
-                        resolve({ user });
-                        return;
-                    }
-                    try {
-                        // Anonymous sign-in is still needed for initial UID.
-                        await signInAnonymously(auth);
-                        resolve({ user: auth.currentUser });
-                    } catch (authError) {
-                        console.error("Authentication failed:", authError);
-                        if (['auth/configuration-not-found', 'auth/network-request-failed', 'auth/unauthorized-domain'].includes(authError.code)) {
-                            document.getElementById('loadingSpinner').style.display = 'none';
-                            document.getElementById('authErrorPage').style.display = 'flex';
-                            resolve({ error: 'handled' });
-                        } else {
-                           reject(authError);
-                        }
-                    }
-                }, reject);
-            });
-
-            if (authResult?.error) {
-                return;
-            }
-
-            await seedInitialData(); 
-            setupRealtimeListeners();
-            checkSession();
-
-        } catch (e) {
-            console.error("Application initialization failed:", e);
-            if (document.getElementById('authErrorPage').style.display !== 'flex') {
-                loadingSpinner.style.display = 'flex';
-                loadingSpinner.innerHTML = `<p class="text-red-500 p-4">خطا در بارگذاری برنامه. لطفاً صفحه را مجدداً بارگذاری کنید.<br><small class="text-gray-400">${e.message}</small></p>`;
-            }
-        }
-    }
-    
-    // --- Event Listener for Manual Config Submission ---
-    document.getElementById('firebaseConfigForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        document.getElementById('firebaseConfigPage').style.display = 'none';
-        loadingSpinner.style.display = 'flex';
-
-        const userConfig = {
-            apiKey: document.getElementById('apiKey').value,
-            authDomain: document.getElementById('authDomain').value,
-            projectId: document.getElementById('projectId').value,
-            storageBucket: document.getElementById('storageBucket').value,
-            messagingSenderId: document.getElementById('messagingSenderId').value,
-            appId: document.getElementById('appIdConfig').value,
-        };
-
-        await initializeWithConfig(userConfig);
+    // --- Main Application Entry Point ---
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeAppState();
+        checkSession();
     });
 
 </script>
 
 </body>
 </html>
+

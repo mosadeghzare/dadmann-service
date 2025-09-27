@@ -1400,20 +1400,20 @@
     function setupRealtimeListeners() {
         onSnapshot(query(collection(db, usersPath)), (snapshot) => {
             AppState.users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if (currentUser?.role === 'admin' && document.getElementById('adminUsers').checkVisibility()) loadUsersTable();
+            if (currentUser?.role === 'admin' && !document.getElementById('adminUsers').classList.contains('hidden')) loadUsersTable();
         });
 
         onSnapshot(query(collection(db, projectsPath)), (snapshot) => {
             AppState.projects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if (currentUser?.role === 'admin' && document.getElementById('adminProjects').checkVisibility()) loadProjectsTable();
+            if (currentUser?.role === 'admin' && !document.getElementById('adminProjects').classList.contains('hidden')) loadProjectsTable();
         });
 
         onSnapshot(query(collection(db, serviceEventsPath)), (snapshot) => {
             AppState.serviceEvents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if (currentUser?.role === 'admin' && document.getElementById('adminScheduler').checkVisibility()) {
+            if (currentUser?.role === 'admin' && !document.getElementById('adminScheduler').classList.contains('hidden')) {
                 renderCalendar(currentJalaaliDate.jy, currentJalaaliDate.jm);
             }
-            if (currentUser?.role === 'supervisor' && document.getElementById('taskList').checkVisibility()) {
+            if (currentUser?.role === 'supervisor' && !document.getElementById('taskList').classList.contains('hidden')) {
                 loadSupervisorTasks();
             }
         });
@@ -1421,10 +1421,10 @@
         onSnapshot(query(collection(db, reportsPath)), (snapshot) => {
             AppState.reports = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             if (currentUser?.role === 'admin') {
-                if (document.getElementById('adminDashboard').checkVisibility()) loadDashboardCharts();
-                if (document.getElementById('adminReports').checkVisibility()) loadReportsTable();
+                if (!document.getElementById('adminDashboard').classList.contains('hidden')) loadDashboardCharts();
+                if (!document.getElementById('adminReports').classList.contains('hidden')) loadReportsTable();
             }
-            if(currentUser?.role === 'supervisor' && document.getElementById('taskList').checkVisibility()) {
+            if(currentUser?.role === 'supervisor' && !document.getElementById('taskList').classList.contains('hidden')) {
                 loadSupervisorTasks();
             }
         });

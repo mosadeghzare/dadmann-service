@@ -1479,11 +1479,11 @@
             auth = getAuth(app);
             
             // Wait for authentication state to be determined
-            await new Promise((resolve, reject) => {
+            const authResult = await new Promise((resolve, reject) => {
                 const unsubscribe = onAuthStateChanged(auth, async (user) => {
                     unsubscribe();
                     if (user) {
-                        resolve(user);
+                        resolve({ user });
                         return;
                     }
                     // If no user, attempt sign-in
@@ -1493,18 +1493,27 @@
                         } else {
                             await signInAnonymously(auth);
                         }
-                        resolve(auth.currentUser);
+                        resolve({ user: auth.currentUser });
                     } catch (authError) {
                         console.error("Authentication failed:", authError);
                         // Show the specific error page for common configuration issues
                         if (['auth/configuration-not-found', 'auth/network-request-failed', 'auth/unauthorized-domain'].includes(authError.code)) {
                             document.getElementById('loadingSpinner').style.display = 'none';
                             document.getElementById('authErrorPage').style.display = 'flex';
+                            // Resolve to signal that the error has been handled visually and stop execution
+                            resolve({ error: 'handled' });
+                        } else {
+                           // For other errors, reject so the main catch block can display a generic message
+                           reject(authError);
                         }
-                        reject(authError); // Stop execution on auth failure
                     }
                 }, reject);
             });
+
+            // If a specific auth error was handled by showing the error page, stop further execution.
+            if (authResult?.error) {
+                return;
+            }
 
             // Once authenticated, proceed with the app
             await seedInitialData(); 
@@ -1528,4 +1537,5 @@
 
 </body>
 </html>
+
 

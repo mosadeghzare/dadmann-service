@@ -112,12 +112,57 @@
         .task-card.priority-low {
             border-right: 5px solid #10b981; /* green-500 */
         }
+        .ltr-input {
+            direction: ltr;
+            text-align: left;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
 
+    <!-- Firebase Config Page -->
+    <div id="firebaseConfigPage" class="flex items-center justify-center min-h-screen">
+        <div class="w-full max-w-lg p-8 space-y-6 bg-white rounded-lg shadow-md">
+            <div class="text-center">
+                <h1 class="text-2xl font-bold text-gray-800">تنظیمات اتصال Firebase</h1>
+                <p class="mt-2 text-md text-gray-500">لطفاً اطلاعات پروژه Firebase خود را وارد کنید.</p>
+            </div>
+            <form id="firebaseConfigForm" class="space-y-4">
+                <div>
+                    <label for="apiKey" class="block text-sm font-medium text-gray-700">API Key</label>
+                    <input id="apiKey" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
+                </div>
+                <div>
+                    <label for="authDomain" class="block text-sm font-medium text-gray-700">Auth Domain</label>
+                    <input id="authDomain" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
+                </div>
+                <div>
+                    <label for="projectId" class="block text-sm font-medium text-gray-700">Project ID</label>
+                    <input id="projectId" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
+                </div>
+                <div>
+                    <label for="storageBucket" class="block text-sm font-medium text-gray-700">Storage Bucket</label>
+                    <input id="storageBucket" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
+                </div>
+                <div>
+                    <label for="messagingSenderId" class="block text-sm font-medium text-gray-700">Messaging Sender ID</label>
+                    <input id="messagingSenderId" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
+                </div>
+                <div>
+                    <label for="appIdConfig" class="block text-sm font-medium text-gray-700">App ID</label>
+                    <input id="appIdConfig" type="text" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ltr-input" dir="ltr">
+                </div>
+                <div>
+                    <button type="submit" class="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        اتصال و ادامه
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Loading Spinner -->
-    <div id="loadingSpinner" class="fixed inset-0 bg-white flex justify-center items-center z-50">
+    <div id="loadingSpinner" class="hidden fixed inset-0 bg-white justify-center items-center z-50">
         <div class="text-center">
             <i class="fas fa-spinner fa-spin text-4xl text-indigo-600"></i>
             <p class="mt-4 text-gray-600">در حال بارگذاری و همگام‌سازی...</p>
@@ -487,7 +532,7 @@
     // --- Firebase SDK Imports ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { 
-        getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged
+        getAuth, signInAnonymously, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { 
         getFirestore, collection, doc, onSnapshot, addDoc, setDoc, deleteDoc, query, where, getDocs, writeBatch 
@@ -1430,40 +1475,12 @@
         });
     }
 
-    // --- Main Application Entry Point ---
-    async function main() {
+    // --- App Initialization Function ---
+    async function initializeWithConfig(config) {
         try {
-            let firebaseConfig;
-            let appId;
+            const appId = 'dadmann-manual-config'; // A consistent ID for manual configurations.
 
-            // First, try to use environment variables provided by the platform
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                try {
-                    const config = JSON.parse(__firebase_config);
-                    if (config.apiKey) {
-                        firebaseConfig = config;
-                        appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-                    }
-                } catch (e) {
-                    console.error("Could not parse injected __firebase_config", e);
-                }
-            }
-
-            // If environment variables are not available or invalid, use a hardcoded fallback
-            if (!firebaseConfig) {
-                console.warn("Using hardcoded Firebase config. This is intended for standalone deployment like GitHub Pages.");
-                firebaseConfig = {
-                    apiKey: "AIzaSyCNAetQbsvjK3khq_gYzW_ISt2gF1tjYlY", // Hardcoded from original user file
-                    authDomain: "dadmann-service.firebaseapp.com",
-                    projectId: "dadmann-service",
-                    storageBucket: "dadmann-service.appspot.com",
-                    messagingSenderId: "41537899804",
-                    appId: "1:41537899804:web:385c09553df650bebffed9"
-                };
-                appId = 'dadmann-service-standalone';
-            }
-            
-            if (!firebaseConfig || !firebaseConfig.apiKey) {
+            if (!config || !config.apiKey) {
                  throw new Error("Firebase configuration is missing or invalid.");
             }
 
@@ -1474,7 +1491,7 @@
             reportsPath = `/artifacts/${appId}/public/data/reports`;
 
             // Initialize Firebase services
-            app = initializeApp(firebaseConfig);
+            app = initializeApp(config);
             db = getFirestore(app);
             auth = getAuth(app);
             
@@ -1486,43 +1503,33 @@
                         resolve({ user });
                         return;
                     }
-                    // If no user, attempt sign-in
                     try {
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
+                        // Anonymous sign-in is still needed for initial UID.
+                        await signInAnonymously(auth);
                         resolve({ user: auth.currentUser });
                     } catch (authError) {
                         console.error("Authentication failed:", authError);
-                        // Show the specific error page for common configuration issues
                         if (['auth/configuration-not-found', 'auth/network-request-failed', 'auth/unauthorized-domain'].includes(authError.code)) {
                             document.getElementById('loadingSpinner').style.display = 'none';
                             document.getElementById('authErrorPage').style.display = 'flex';
-                            // Resolve to signal that the error has been handled visually and stop execution
                             resolve({ error: 'handled' });
                         } else {
-                           // For other errors, reject so the main catch block can display a generic message
                            reject(authError);
                         }
                     }
                 }, reject);
             });
 
-            // If a specific auth error was handled by showing the error page, stop further execution.
             if (authResult?.error) {
                 return;
             }
 
-            // Once authenticated, proceed with the app
             await seedInitialData(); 
             setupRealtimeListeners();
             checkSession();
 
         } catch (e) {
             console.error("Application initialization failed:", e);
-            // Don't show generic error if specific auth error page is already shown
             if (document.getElementById('authErrorPage').style.display !== 'flex') {
                 loadingSpinner.style.display = 'flex';
                 loadingSpinner.innerHTML = `<p class="text-red-500 p-4">خطا در بارگذاری برنامه. لطفاً صفحه را مجدداً بارگذاری کنید.<br><small class="text-gray-400">${e.message}</small></p>`;
@@ -1530,12 +1537,26 @@
         }
     }
     
-    // Run the application
-    main();
+    // --- Event Listener for Manual Config Submission ---
+    document.getElementById('firebaseConfigForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        document.getElementById('firebaseConfigPage').style.display = 'none';
+        loadingSpinner.style.display = 'flex';
+
+        const userConfig = {
+            apiKey: document.getElementById('apiKey').value,
+            authDomain: document.getElementById('authDomain').value,
+            projectId: document.getElementById('projectId').value,
+            storageBucket: document.getElementById('storageBucket').value,
+            messagingSenderId: document.getElementById('messagingSenderId').value,
+            appId: document.getElementById('appIdConfig').value,
+        };
+
+        await initializeWithConfig(userConfig);
+    });
 
 </script>
 
 </body>
 </html>
-
-

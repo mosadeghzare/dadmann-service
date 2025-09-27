@@ -4,23 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>پلتفرم مدیریت سرویس و نگهداری Dadmann</title>
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js for data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     
+    <!-- Vazirmatn Persian Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Custom styles for the application */
         body {
             font-family: 'Vazirmatn', sans-serif;
             direction: rtl;
         }
         .modal {
-            display: none;
+            display: none; /* Hidden by default */
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -96,6 +102,16 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        /* Priority borders for supervisor tasks */
+        .task-card.priority-high {
+            border-right: 5px solid #ef4444; /* red-500 */
+        }
+        .task-card.priority-medium {
+            border-right: 5px solid #f59e0b; /* amber-500 */
+        }
+        .task-card.priority-low {
+            border-right: 5px solid #10b981; /* green-500 */
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -108,7 +124,7 @@
         </div>
     </div>
 
-    <!-- Firebase Auth Error Message -->
+    <!-- Firebase Authentication Error Message Page -->
     <div id="authErrorPage" class="hidden fixed inset-0 bg-gray-50 flex justify-center items-center z-50 p-4">
         <div class="w-full max-w-2xl p-8 space-y-4 bg-white rounded-lg shadow-lg border-2 border-red-500 text-center">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
@@ -116,19 +132,33 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                 </svg>
             </div>
-            <h1 class="text-2xl font-bold text-red-600">اقدام لازم: فعال‌سازی ورود ناشناس</h1>
+            <h1 class="text-2xl font-bold text-red-600">اقدام لازم: تنظیمات اتصال Firebase</h1>
             <p class="text-gray-700">
-               برنامه نمی‌تواند به پایگاه داده متصل شود زیرا روش ورود ناشناس (Anonymous) در پروژه Firebase شما غیرفعال است.
+               اتصال به پایگاه داده با خطا مواجه شد. این مشکل معمولاً به دلیل یکی از دو مورد زیر در تنظیمات پروژه Firebase شما رخ می‌دهد. لطفاً هر دو مورد را بررسی کنید:
             </p>
-            <div class="text-right bg-gray-100 p-4 rounded-md border text-gray-800">
-                <h2 class="font-bold text-lg mb-2">راهنمای فعال‌سازی:</h2>
-                <ol class="list-decimal list-inside space-y-3">
-                    <li>وارد <a href="https://console.firebase.google.com/project/dadmann-service/authentication/providers" target="_blank" class="text-blue-600 font-semibold hover:underline">صفحه Authentication پروژه Firebase</a> شوید.</li>
-                    <li>در لیست موجود، <b>Anonymous</b> را پیدا کرده، روی آن کلیک کنید.</li>
-                    <li>کلید آن را در حالت فعال (<b>Enabled</b>) قرار دهید و ذخیره کنید.</li>
-                </ol>
+            <div class="space-y-4 text-right bg-gray-50 p-4 rounded-md border text-gray-800">
+                <div>
+                    <h2 class="font-bold text-lg mb-2">مرحله ۱: فعال‌سازی ورود ناشناس</h2>
+                    <ol class="list-decimal list-inside space-y-2 text-sm">
+                        <li>وارد <a href="https://console.firebase.google.com/" target="_blank" class="text-blue-600 font-semibold hover:underline">کنسول Firebase پروژه خود</a> و سپس بخش <b>Authentication</b> شوید.</li>
+                        <li>در لیست موجود، <b>Anonymous</b> را پیدا کرده و آن را فعال (<b>Enable</b>) کنید.</li>
+                    </ol>
+                </div>
+                <hr class="my-4">
+                <div>
+                    <h2 class="font-bold text-lg mb-2">مرحله ۲: افزودن دامنه‌های مجاز</h2>
+                     <ol class="list-decimal list-inside space-y-2 text-sm">
+                        <li>در همان بخش Authentication، به سربرگ <b>Settings</b> بروید.</li>
+                        <li>در قسمت <b>Authorized domains</b> روی دکمه <b>Add domain</b> کلیک کنید.</li>
+                        <li>هر کدام از دامنه‌های زیر را که استفاده می‌کنید، دقیقاً وارد و اضافه کنید: <br> 
+                            <code class="bg-gray-200 text-red-700 p-1 rounded-md text-xs" dir="ltr">mosadeghzare.github.io</code>
+                            <br>
+                            <code class="bg-gray-200 text-red-700 p-1 mt-1 inline-block rounded-md text-xs" dir="ltr">dadman-service.netlify.app</code>
+                        </li>
+                     </ol>
+                </div>
             </div>
-            <p class="text-sm text-gray-500 pt-2">پس از انجام این مراحل، لطفاً روی دکمه زیر کلیک کنید تا صفحه دوباره بارگذاری شود.</p>
+            <p class="text-sm text-gray-500 pt-2">پس از انجام این مراحل، روی دکمه زیر کلیک کنید تا صفحه دوباره بارگذاری شود.</p>
             <button onclick="location.reload()" class="mt-4 w-full px-4 py-2 font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 تلاش مجدد برای بارگذاری
             </button>
@@ -341,6 +371,9 @@
             <header class="bg-white shadow-md">
                 <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                     <h1 class="text-xl font-bold text-gray-800">وظایف امروز</h1>
+                    <button id="prioritizeTasksBtn" class="bg-purple-100 text-purple-700 font-semibold py-2 px-4 rounded-full text-sm hover:bg-purple-200 hidden">
+                        ✨ اولویت‌بندی هوشمند وظایف
+                    </button>
                     <button id="logoutButtonSupervisor" class="text-gray-600 hover:text-indigo-600">
                         <i class="fas fa-sign-out-alt text-xl"></i>
                     </button>
@@ -454,24 +487,18 @@
     // --- Firebase SDK Imports ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { 
-        getAuth, signInAnonymously, onAuthStateChanged
+        getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { 
         getFirestore, collection, doc, onSnapshot, addDoc, setDoc, deleteDoc, query, where, getDocs, writeBatch 
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
     
     
-    // --- Initialize Firebase ---
+    // --- Firebase App Instances ---
     let app, db, auth;
-    
-    // --- Firestore Collection Paths ---
-    const appId = 'dadman-om-app'; // Hardcoded for external environments like Netlify
-    const usersPath = `/artifacts/${appId}/public/data/users`;
-    const projectsPath = `/artifacts/${appId}/public/data/projects`;
-    const serviceEventsPath = `/artifacts/${appId}/public/data/serviceEvents`;
-    const reportsPath = `/artifacts/${appId}/public/data/reports`;
+    let usersPath, projectsPath, serviceEventsPath, reportsPath;
 
-    // --- JALAALI DATE CONVERTER ---
+    // --- Jalaali Date Converter Utility ---
     const jalaali = (() => {
         function toJalaali(gy, gm, gd) {
             var g_d_m, jy, jm, jd, gy2, days;
@@ -544,8 +571,8 @@
         return { toJalaali, toGregorian, jalaaliMonthLength };
     })();
     
-    // --- APP STATE (CACHE) ---
-    let AppState = {
+    // --- Application State (In-memory Cache) ---
+    const AppState = {
         users: [],
         projects: [],
         serviceEvents: [],
@@ -562,6 +589,7 @@
         ]
     };
     
+    // --- Initial Data for Seeding ---
     const initialData = {
          users: [
             { username: 'admin', password: 'admin123', role: 'admin' },
@@ -575,20 +603,10 @@
             { name: "دکتر کاجی", group: "گروه (ب)", capacity: 80, year: 1397 },
             { name: "آرنیکا", group: "گروه (ب)", capacity: 20, year: 1401 },
             { name: "شهداب زارچ", group: "گروه (ج)", capacity: 200, year: 1400 },
-            { name: "یزدپخش", group: "گروه (ج)", capacity: 20, year: 1398 },
-            { name: "دکتر حجت", group: "گروه (د)", capacity: 20, year: 1395 },
-            { name: "آقای کرمی", group: "گروه (د)", capacity: 5, year: 1396 },
-            { name: "دکتر کارگر", group: "گروه (ه)", capacity: 20, year: 1399 },
-            { name: "آقای داد", group: "گروه (ه)", capacity: 20, year: 1401 },
-            { name: "آقای مثقالی فروش", group: "گروه (و)", capacity: 20, year: 1401 },
-            { name: "آقای شایقی", group: "گروه (و)", capacity: 20, year: 1397 },
-            { name: "آقای احمدیه", group: "گروه (و)", capacity: 5, year: 1397 },
-            { name: "آقای موسوی نسب", group: "گروه (و)", capacity: 5, year: 1396 },
-            { name: "آقای دوست حسینی", group: "گروه (و)", capacity: 5, year: 1397 }
         ]
     };
 
-    // --- DATA SEEDING (One-time only) ---
+    // --- Data Seeding (runs only once if database is empty) ---
     async function seedInitialData() {
         const usersQuery = query(collection(db, usersPath));
         const usersSnapshot = await getDocs(usersQuery);
@@ -610,6 +628,7 @@
         }
     }
     
+    // --- Session and State Variables ---
     let currentUser = null;
     let currentReportData = {
         projectId: null,
@@ -618,8 +637,10 @@
         defectsDescription: '',
         photos: []
     };
+    let myTasksCache = [];
 
-    // --- GEMINI API INTEGRATION ---
+
+    // --- Gemini API Integration ---
     const GEMINI_API_KEY = ""; // Provided by the environment
     const GEMINI_TEXT_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
     const GEMINI_TTS_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${GEMINI_API_KEY}`;
@@ -669,78 +690,7 @@
         }
     }
     
-    async function callGeminiTtsAPI(text, buttonElement) {
-        buttonElement.disabled = true;
-        buttonElement.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
-
-        try {
-            const payload = {
-                contents: [{ parts: [{ text: `متن زیر را به صورت واضح و حرفه‌ای بخوان: ${text}` }] }],
-                generationConfig: {
-                    responseModalities: ["AUDIO"],
-                    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } }
-                },
-                model: "gemini-2.5-flash-preview-tts"
-            };
-            const response = await fetch(GEMINI_TTS_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            if (!response.ok) throw new Error(`TTS API error: ${response.statusText}`);
-
-            const result = await response.json();
-            const part = result?.candidates?.[0]?.content?.parts?.[0];
-            const audioData = part?.inlineData?.data;
-            const mimeType = part?.inlineData?.mimeType;
-
-            if (audioData && mimeType && mimeType.startsWith("audio/")) {
-                const pcmData = atob(audioData).split('').map(c => c.charCodeAt(0));
-                const pcm16 = new Int16Array(new Uint8Array(pcmData).buffer);
-                const wavBlob = pcmToWav(pcm16);
-                const audioUrl = URL.createObjectURL(wavBlob);
-                new Audio(audioUrl).play();
-            } else {
-                throw new Error("Invalid audio data in response.");
-            }
-
-        } catch (error) {
-            console.error('Error calling TTS API:', error);
-            alert(`خطا در پخش صدا: ${error.message}`);
-        } finally {
-            buttonElement.disabled = false;
-            buttonElement.innerHTML = `<i class="fas fa-volume-up"></i>`;
-        }
-    }
-    
-    function pcmToWav(pcmData, sampleRate = 24000, channels = 1) {
-        const buffer = new ArrayBuffer(44 + pcmData.length * 2);
-        const view = new DataView(buffer);
-        const writeString = (view, offset, string) => {
-            for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
-        };
-        const blockAlign = channels * 2;
-        const byteRate = sampleRate * blockAlign;
-        writeString(view, 0, 'RIFF');
-        view.setUint32(4, 36 + pcmData.length * 2, true);
-        writeString(view, 8, 'WAVE');
-        writeString(view, 12, 'fmt ');
-        view.setUint32(16, 16, true);
-        view.setUint16(20, 1, true);
-        view.setUint16(22, channels, true);
-        view.setUint32(24, sampleRate, true);
-        view.setUint32(28, byteRate, true);
-        view.setUint16(32, blockAlign, true);
-        view.setUint16(34, 16, true);
-        writeString(view, 36, 'data');
-        view.setUint32(40, pcmData.length * 2, true);
-        for (let i = 0; i < pcmData.length; i++) {
-            view.setInt16(44 + i * 2, pcmData[i], true);
-        }
-        return new Blob([view], { type: 'audio/wav' });
-    }
-
-    // --- UTILITY FUNCTIONS ---
+    // --- Utility Functions ---
     function getTodayDateString() {
         const today = new Date();
         const year = today.getFullYear();
@@ -833,14 +783,13 @@
 
     function setupAdminNavigation() {
         document.querySelectorAll('.admin-nav-link').forEach(link => {
-            if (!link.dataset.listenerAttached) {
-                link.dataset.listenerAttached = 'true';
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = e.currentTarget.getAttribute('data-target');
-                    showAdminPage(targetId);
-                });
-            }
+            if (link.dataset.listenerAttached) return;
+            link.dataset.listenerAttached = 'true';
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = e.currentTarget.getAttribute('data-target');
+                showAdminPage(targetId);
+            });
         });
     }
 
@@ -850,6 +799,7 @@
         });
         document.getElementById(pageId).classList.remove('hidden');
         
+        // Dynamically load data for the visible page
         if (pageId === 'adminDashboard') loadDashboardCharts();
         if (pageId === 'adminProjects') loadProjectsTable();
         if (pageId === 'adminUsers') loadUsersTable();
@@ -877,16 +827,14 @@
             return;
         }
         
-        let defectSummary = '';
-        recentReports.forEach(report => {
+        let defectSummary = recentReports.map(report => {
             const project = AppState.projects.find(p => p.id === report.projectId);
             const defectiveItems = Object.entries(report.data.checklist)
                 .filter(([_, status]) => status === 'مورد دارد')
                 .map(([item, _]) => item);
-            if (defectiveItems.length > 0) {
-                defectSummary += `پروژه ${project?.name || 'نامشخص'} در تاریخ ${report.date}: ${defectiveItems.join(', ')}\n`;
-            }
-        });
+            return defectiveItems.length > 0 ? `پروژه ${project?.name || 'نامشخص'} در تاریخ ${report.date}: ${defectiveItems.join(', ')}` : '';
+        }).filter(Boolean).join('\n');
+
 
         if (!defectSummary) {
             resultContainer.innerHTML = '<p>هیچ نقصی در گزارش‌های ۳۰ روز گذشته ثبت نشده است. عملکرد عالی!</p>';
@@ -907,15 +855,15 @@
         AppState.checklistItems.forEach(item => defectCounts[item] = 0);
         AppState.reports.forEach(report => {
             if (report.data && report.data.checklist) {
-                for (const item in report.data.checklist) {
-                    if (report.data.checklist[item] === 'مورد دارد') {
-                        if(defectCounts[item] !== undefined) defectCounts[item]++;
+                Object.entries(report.data.checklist).forEach(([item, status]) => {
+                    if (status === 'مورد دارد' && defectCounts[item] !== undefined) {
+                        defectCounts[item]++;
                     }
-                }
+                });
             }
         });
         
-        const sortedDefects = Object.entries(defectCounts).filter(([_, count]) => count > 0).sort((a, b) => b[1] - a[1]);
+        const sortedDefects = Object.entries(defectCounts).filter(([, count]) => count > 0).sort((a, b) => b[1] - a[1]);
         const defectLabels = sortedDefects.map(d => d[0].substring(0, 30) + '...');
         const defectData = sortedDefects.map(d => d[1]);
 
@@ -927,8 +875,10 @@
             options: { responsive: true, indexAxis: 'y' }
         });
 
-        const statusCounts = { approved: 0, rejected: 0, pending: 0 };
-        AppState.reports.forEach(report => statusCounts[report.status]++);
+        const statusCounts = AppState.reports.reduce((acc, report) => {
+            acc[report.status] = (acc[report.status] || 0) + 1;
+            return acc;
+        }, { approved: 0, rejected: 0, pending: 0 });
 
         const reportsStatusCtx = document.getElementById('reportsStatusChart').getContext('2d');
         if(reportsStatusChartInstance) reportsStatusChartInstance.destroy();
@@ -942,57 +892,87 @@
         });
     }
 
-    // Admin Projects
+    // Admin Projects, Users, Reports (Table Loaders)
     function loadProjectsTable() {
         const tableBody = document.getElementById('projectsTableBody');
-        tableBody.innerHTML = '';
-        AppState.projects.forEach(p => {
-            const row = `
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">${p.name}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${p.group}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${p.capacity}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${p.year}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button class="edit-project-btn text-indigo-600 hover:text-indigo-900" data-id="${p.id}">ویرایش</button>
-                        <button class="delete-project-btn mr-4 text-red-600 hover:text-red-900" data-id="${p.id}">حذف</button>
-                    </td>
-                </tr>
-            `;
-            tableBody.insertAdjacentHTML('beforeend', row);
-        });
+        tableBody.innerHTML = AppState.projects.map(p => `
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">${p.name}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${p.group}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${p.capacity}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${p.year}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button class="edit-project-btn text-indigo-600 hover:text-indigo-900" data-id="${p.id}">ویرایش</button>
+                    <button class="delete-project-btn mr-4 text-red-600 hover:text-red-900" data-id="${p.id}">حذف</button>
+                </td>
+            </tr>
+        `).join('');
         
-        document.querySelectorAll('.edit-project-btn').forEach(btn => btn.addEventListener('click', e => openProjectModal(e.target.dataset.id)));
-        document.querySelectorAll('.delete-project-btn').forEach(btn => btn.addEventListener('click', e => {
+        tableBody.querySelectorAll('.edit-project-btn').forEach(btn => btn.addEventListener('click', e => openProjectModal(e.target.dataset.id)));
+        tableBody.querySelectorAll('.delete-project-btn').forEach(btn => btn.addEventListener('click', e => {
             const project = AppState.projects.find(p => p.id === e.target.dataset.id);
             openConfirmModal('project', e.target.dataset.id, `آیا از حذف پروژه "${project.name}" اطمینان دارید؟`);
         }));
     }
     
-    // Admin Users
     function loadUsersTable() {
         const tableBody = document.getElementById('usersTableBody');
-        tableBody.innerHTML = '';
-        AppState.users.forEach(u => {
-            const roleFa = u.role === 'admin' ? 'مدیر' : 'سرپرست';
-            const row = `
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">${u.username}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${roleFa}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button class="edit-user-btn text-indigo-600 hover:text-indigo-900" data-id="${u.id}">ویرایش</button>
-                        <button class="delete-user-btn mr-4 text-red-600 hover:text-red-900" data-id="${u.id}">حذف</button>
-                    </td>
-                </tr>
-            `;
-            tableBody.insertAdjacentHTML('beforeend', row);
-        });
+        tableBody.innerHTML = AppState.users.map(u => `
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">${u.username}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${u.role === 'admin' ? 'مدیر' : 'سرپرست'}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button class="edit-user-btn text-indigo-600 hover:text-indigo-900" data-id="${u.id}">ویرایش</button>
+                    <button class="delete-user-btn mr-4 text-red-600 hover:text-red-900" data-id="${u.id}">حذف</button>
+                </td>
+            </tr>
+        `).join('');
 
-        document.querySelectorAll('.edit-user-btn').forEach(btn => btn.addEventListener('click', e => openUserModal(e.target.dataset.id)));
-        document.querySelectorAll('.delete-user-btn').forEach(btn => btn.addEventListener('click', e => {
+        tableBody.querySelectorAll('.edit-user-btn').forEach(btn => btn.addEventListener('click', e => openUserModal(e.target.dataset.id)));
+        tableBody.querySelectorAll('.delete-user-btn').forEach(btn => btn.addEventListener('click', e => {
             const user = AppState.users.find(u => u.id === e.target.dataset.id);
             openConfirmModal('user', e.target.dataset.id, `آیا از حذف کاربر "${user.username}" اطمینان دارید؟`)
         }));
+    }
+
+    function loadReportsTable() {
+        const tableBody = document.getElementById('reportsTableBody');
+        const reportsToDisplay = AppState.reports.map(report => {
+            const project = AppState.projects.find(p => p.id === report.projectId);
+            const supervisor = AppState.users.find(u => u.id === report.supervisorId);
+            const gDate = new Date(report.date);
+            const jDate = jalaali.toJalaali(gDate.getFullYear(), gDate.getMonth() + 1, gDate.getDate());
+            return { ...report, projectName: project?.name, supervisorName: supervisor?.username, sortDate: gDate, jalaaliDate: `${jDate.jy}/${jDate.jm}/${jDate.jd}` };
+        }).sort((a, b) => b.sortDate - a.sortDate);
+
+        if (reportsToDisplay.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-gray-500">هیچ گزارشی یافت نشد.</td></tr>`;
+            return;
+        }
+
+        tableBody.innerHTML = reportsToDisplay.map(r => {
+            const statusBadges = {
+                pending: `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">در انتظار</span>`,
+                approved: `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">تایید شده</span>`,
+                rejected: `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">رد شده</span>`
+            };
+            return `
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">${r.projectName || 'نامشخص'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${r.supervisorName || 'نامشخص'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${r.jalaaliDate}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${statusBadges[r.status] || ''}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button data-report-id="${r.id}" class="view-report-btn text-indigo-600 hover:text-indigo-900">مشاهده</button>
+                        <button data-report-id="${r.id}" data-action="approved" class="approve-reject-btn mr-2 text-green-600 hover:text-green-900">تایید</button>
+                        <button data-report-id="${r.id}" data-action="rejected" class="approve-reject-btn mr-2 text-red-600 hover:text-red-900">رد</button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+        tableBody.querySelectorAll('.approve-reject-btn').forEach(btn => btn.addEventListener('click', handleReportAction));
+        tableBody.querySelectorAll('.view-report-btn').forEach(btn => btn.addEventListener('click', viewReport));
     }
 
     // Admin Scheduler
@@ -1002,40 +982,28 @@
         const projectGroupsContainer = document.getElementById('projectGroupsContainer');
         const uniqueGroups = [...new Set(AppState.projects.map(p => p.group))];
         
-        projectGroupsContainer.innerHTML = '';
+        projectGroupsContainer.innerHTML = uniqueGroups.map(group => {
+            const projectIds = AppState.projects.filter(p => p.group === group).map(p => p.id);
+            return `<div class="p-3 bg-blue-100 border border-blue-300 rounded-md draggable" draggable="true" data-project-ids='${JSON.stringify(projectIds)}' data-group-name="${group}">${group}</div>`;
+        }).join('');
         if (uniqueGroups.length === 0) {
             projectGroupsContainer.innerHTML = '<p class="text-sm text-gray-500">ابتدا یک پروژه اضافه کنید.</p>';
         }
 
-        uniqueGroups.forEach((group) => {
-            const projectIds = AppState.projects.filter(p => p.group === group).map(p => p.id);
-            const div = document.createElement('div');
-            div.className = 'p-3 bg-blue-100 border border-blue-300 rounded-md draggable';
-            div.textContent = group;
-            div.setAttribute('draggable', true);
-            div.dataset.projectIds = JSON.stringify(projectIds);
-            
-            div.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', JSON.stringify({ projectIds: e.target.dataset.projectIds, groupName: e.target.textContent }));
-            });
-            projectGroupsContainer.appendChild(div);
+        projectGroupsContainer.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('draggable')) {
+                 e.dataTransfer.setData('text/plain', JSON.stringify({ projectIds: e.target.dataset.projectIds, groupName: e.target.dataset.groupName }));
+            }
         });
         
         document.getElementById('prevMonth').onclick = () => {
             currentJalaaliDate.jm--;
-            if (currentJalaaliDate.jm < 1) {
-                currentJalaaliDate.jm = 12;
-                currentJalaaliDate.jy--;
-            }
+            if (currentJalaaliDate.jm < 1) { currentJalaaliDate.jm = 12; currentJalaaliDate.jy--; }
             renderCalendar(currentJalaaliDate.jy, currentJalaaliDate.jm);
         };
-
         document.getElementById('nextMonth').onclick = () => {
             currentJalaaliDate.jm++;
-            if (currentJalaaliDate.jm > 12) {
-                currentJalaaliDate.jm = 1;
-                currentJalaaliDate.jy++;
-            }
+            if (currentJalaaliDate.jm > 12) { currentJalaaliDate.jm = 1; currentJalaaliDate.jy++; }
             renderCalendar(currentJalaaliDate.jy, currentJalaaliDate.jm);
         };
         
@@ -1047,8 +1015,7 @@
                 if (event) {
                     const gDate = new Date(event.date);
                     const jDate = jalaali.toJalaali(gDate.getFullYear(), gDate.getMonth() + 1, gDate.getDate());
-                    const formattedDate = `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
-                    const text = `آیا از حذف رویداد "${event.groupName}" در تاریخ ${formattedDate} اطمینان دارید؟`;
+                    const text = `آیا از حذف رویداد "${event.groupName}" در تاریخ ${jDate.jy}/${jDate.jm}/${jDate.jd} اطمینان دارید؟`;
                     openConfirmModal('serviceEvent', eventId, text);
                 }
             }
@@ -1065,52 +1032,43 @@
 
         const g = jalaali.toGregorian(jy, jm, 1);
         const d = new Date(g.gy, g.gm-1, g.gd);
-        const dayOfWeek = d.getDay();
-        const dayOffset = (dayOfWeek + 1) % 7;
-        
+        const dayOffset = (d.getDay() + 1) % 7;
         const daysInMonth = jalaali.jalaaliMonthLength(jy, jm);
 
-        for (let i = 0; i < dayOffset; i++) {
-            calendarBody.insertAdjacentHTML('beforeend', '<div class="border border-gray-200 bg-gray-50"></div>');
-        }
+        let cells = Array(dayOffset).fill('<div class="border border-gray-200 bg-gray-50"></div>');
 
         for (let day = 1; day <= daysInMonth; day++) {
-            const dayCell = document.createElement('div');
-            dayCell.className = 'calendar-day';
-            
             const gDate = jalaali.toGregorian(jy, jm, day);
             const dateStr = `${gDate.gy}-${String(gDate.gm).padStart(2, '0')}-${String(gDate.gd).padStart(2, '0')}`;
-            dayCell.dataset.date = dateStr;
             
-            dayCell.innerHTML = `<span class="absolute top-1 right-1 text-sm text-gray-600">${day}</span><div class="events-container mt-6 space-y-1"></div>`;
-
             const dayEvents = AppState.serviceEvents.filter(e => e.date === dateStr);
-            const eventsContainer = dayCell.querySelector('.events-container');
-            dayEvents.forEach(event => {
-                const supervisor = AppState.users.find(u => u.id == event.supervisorId);
-                eventsContainer.innerHTML += `
-                    <div class="event">
+            const eventsHtml = dayEvents.map(event => {
+                 const supervisor = AppState.users.find(u => u.id == event.supervisorId);
+                 return `<div class="event">
                         <span class="truncate">${event.groupName} (${supervisor ? supervisor.username.substring(0,5) : 'نامشخص'})</span>
                         <button class="delete-event-btn" data-event-id="${event.id}">&times;</button>
                     </div>`;
-            });
+            }).join('');
+            
+            cells.push(`<div class="calendar-day" data-date="${dateStr}">
+                <span class="absolute top-1 right-1 text-sm text-gray-600">${day}</span>
+                <div class="events-container mt-6 space-y-1">${eventsHtml}</div>
+            </div>`);
+        }
+        calendarBody.innerHTML = cells.join('');
 
+        calendarBody.querySelectorAll('.calendar-day').forEach(dayCell => {
             dayCell.addEventListener('dragover', e => { e.preventDefault(); e.currentTarget.classList.add('dropzone'); });
             dayCell.addEventListener('dragleave', e => e.currentTarget.classList.remove('dropzone'));
             dayCell.addEventListener('drop', e => {
                 e.preventDefault();
                 e.currentTarget.classList.remove('dropzone');
                 const data = JSON.parse(e.dataTransfer.getData('text/plain'));
-                
                 const gDropDate = new Date(e.currentTarget.dataset.date);
-                const jalaaliDateClicked = jalaali.toJalaali(gDropDate.getFullYear(), gDropDate.getMonth() + 1, gDropDate.getDate());
-                const formattedDate = `${jalaaliDateClicked.jy}/${jalaaliDateClicked.jm}/${jalaaliDateClicked.jd}`;
-                
-                openAssignSupervisorModal(data, e.currentTarget.dataset.date, formattedDate);
+                const jDate = jalaali.toJalaali(gDropDate.getFullYear(), gDropDate.getMonth() + 1, gDropDate.getDate());
+                openAssignSupervisorModal(data, e.currentTarget.dataset.date, `${jDate.jy}/${jDate.jm}/${jDate.jd}`);
             });
-
-            calendarBody.appendChild(dayCell);
-        }
+        });
     }
 
     let currentEventForModal = null;
@@ -1120,80 +1078,28 @@
         document.getElementById('modalEventInfo').textContent = `زمان‌بندی "${eventData.groupName}" برای تاریخ: ${jalaaliDate}`;
         
         const supervisorSelect = document.getElementById('supervisorSelect');
-        supervisorSelect.innerHTML = '';
-        AppState.users.filter(u => u.role === 'supervisor').forEach(sup => {
-            supervisorSelect.insertAdjacentHTML('beforeend', `<option value="${sup.id}">${sup.username}</option>`);
-        });
-
+        supervisorSelect.innerHTML = AppState.users.filter(u => u.role === 'supervisor')
+            .map(sup => `<option value="${sup.id}">${sup.username}</option>`).join('');
         modal.style.display = 'flex';
     }
 
     async function confirmAssignHandler() {
         const supervisorId = document.getElementById('supervisorSelect').value;
         if (currentEventForModal && supervisorId) {
-            const newEvent = {
+            await addDoc(collection(db, serviceEventsPath), {
                 date: currentEventForModal.date,
                 groupName: currentEventForModal.groupName,
                 supervisorId: supervisorId,
                 projects: JSON.parse(currentEventForModal.projectIds)
-            };
-            await addDoc(collection(db, serviceEventsPath), newEvent);
-            // No need to manually re-render; onSnapshot will handle it.
+            });
             document.getElementById('assignSupervisorModal').style.display = 'none';
         }
     }
 
-    // Admin Reports
-    function loadReportsTable() {
-        const tableBody = document.getElementById('reportsTableBody');
-        const reportsToDisplay = [];
-        
-        AppState.reports.forEach(report => {
-            const project = AppState.projects.find(p => p.id === report.projectId);
-            const supervisor = AppState.users.find(u => u.id === report.supervisorId);
-            const gDate = new Date(report.date);
-            const jDate = jalaali.toJalaali(gDate.getFullYear(), gDate.getMonth() + 1, gDate.getDate());
-            const formattedDate = `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
-            reportsToDisplay.push({ ...report, projectName: project?.name, supervisorName: supervisor?.username, sortDate: gDate, jalaaliDate: formattedDate });
-        });
-
-        reportsToDisplay.sort((a, b) => b.sortDate - a.sortDate);
-
-        tableBody.innerHTML = '';
-        if (reportsToDisplay.length === 0) {
-            tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-gray-500">هیچ گزارشی یافت نشد.</td></tr>`;
-        }
-
-        reportsToDisplay.forEach(r => {
-            let statusBadge = `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">در انتظار</span>`;
-            if (r.status === 'approved') statusBadge = `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">تایید شده</span>`;
-            if (r.status === 'rejected') statusBadge = `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">رد شده</span>`;
-
-            const actionButtons = `
-                <button data-report-id="${r.id}" class="view-report-btn text-indigo-600 hover:text-indigo-900">مشاهده</button>
-                <button data-report-id="${r.id}" data-action="approved" class="approve-reject-btn mr-2 text-green-600 hover:text-green-900">تایید</button>
-                <button data-report-id="${r.id}" data-action="rejected" class="approve-reject-btn mr-2 text-red-600 hover:text-red-900">رد</button>
-            `;
-            tableBody.insertAdjacentHTML('beforeend', `
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">${r.projectName || 'نامشخص'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${r.supervisorName || 'نامشخص'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${r.jalaaliDate}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${statusBadge}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${actionButtons}</td>
-                </tr>
-            `);
-        });
-
-        document.querySelectorAll('.approve-reject-btn').forEach(btn => btn.addEventListener('click', handleReportAction));
-        document.querySelectorAll('.view-report-btn').forEach(btn => btn.addEventListener('click', viewReport));
-    }
-
+    // Admin Report Viewing
     async function handleReportAction(e) {
-        const reportId = e.target.dataset.reportId;
-        const action = e.target.dataset.action;
+        const { reportId, action } = e.target.dataset;
         await setDoc(doc(db, reportsPath, reportId), { status: action }, { merge: true });
-        // UI updates via onSnapshot
     }
 
     function viewReport(e) {
@@ -1209,32 +1115,13 @@
         const jDate = jalaali.toJalaali(gDate.getFullYear(), gDate.getMonth() + 1, gDate.getDate());
         const formattedDate = `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
 
-        let checklistHtml = '<ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">';
-        AppState.checklistItems.forEach(item => {
-            const status = report.data.checklist[item] || 'پاسخ داده نشده';
-            const statusClass = status === 'انجام شد' ? 'text-green-600' : (status === 'مورد دارد' ? 'text-red-600 font-bold' : 'text-gray-500');
-            checklistHtml += `<li class="flex justify-between"><span>${item}:</span><span class="${statusClass}">${status}</span></li>`;
-        });
-        checklistHtml += '</ul>';
+        const checklistHtml = '<ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">' +
+            AppState.checklistItems.map(item => {
+                const status = report.data.checklist[item] || 'پاسخ داده نشده';
+                const statusClass = status === 'انجام شد' ? 'text-green-600' : (status === 'مورد دارد' ? 'text-red-600 font-bold' : 'text-gray-500');
+                return `<li class="flex justify-between"><span>${item}:</span><span class="${statusClass}">${status}</span></li>`;
+            }).join('') + '</ul>';
         
-        let measurementsHtml = '<h6>مقادیر اندازه‌گیری شده وجود ندارد.</h6>';
-        if(report.data.measurements && report.data.measurements.length > 0) {
-            measurementsHtml = `<table class="min-w-full divide-y divide-gray-200 mt-2"><thead class="bg-gray-50"><tr><th class="px-2 py-2 text-right text-xs font-medium text-gray-500">استرینگ</th><th class="px-2 py-2 text-right text-xs font-medium text-gray-500">ولتاژ (V)</th><th class="px-2 py-2 text-right text-xs font-medium text-gray-500">جریان (A)</th></tr></thead><tbody class="bg-white divide-y divide-gray-200">`;
-            report.data.measurements.forEach(m => {
-                measurementsHtml += `<tr><td class="px-2 py-2">${m.string}</td><td class="px-2 py-2">${m.voltage || '-'}</td><td class="px-2 py-2">${m.current || '-'}</td></tr>`;
-            });
-            measurementsHtml += '</tbody></table>';
-        }
-        
-        let photoHtml = '<i>عکسی آپلود نشده است.</i>';
-        if (report.data.photos && report.data.photos.length > 0) {
-            photoHtml = '<div class="flex flex-wrap gap-4">';
-            report.data.photos.forEach(photoSrc => {
-                photoHtml += `<img src="${photoSrc}" class="w-24 h-24 object-cover rounded-md border">`;
-            });
-            photoHtml += '</div>';
-        }
-
         modalContent.innerHTML = `
             <div class="flex justify-between items-start">
                 <h2 class="text-2xl font-bold mb-4">گزارش سرویس: ${project?.name}</h2>
@@ -1243,101 +1130,15 @@
             <div class="text-sm text-gray-600 mb-4"><p><strong>سرپرست:</strong> ${supervisor?.username}</p><p><strong>تاریخ:</strong> ${formattedDate}</p></div>
             <div class="space-y-6">
                 <div><h3 class="text-lg font-semibold border-b pb-2 mb-2">چک‌لیست</h3>${checklistHtml}</div>
-                <div><h3 class="text-lg font-semibold border-b pb-2 mb-2">اندازه‌گیری‌ها</h3>${measurementsHtml}</div>
                 <div><h3 class="text-lg font-semibold border-b pb-2 mb-2">توضیحات نواقص</h3><p class="bg-gray-50 p-3 rounded-md text-sm">${report.data.defectsDescription || '<i>-</i>'}</p></div>
-                <div><h3 class="text-lg font-semibold border-b pb-2 mb-2">عکس‌ها</h3>${photoHtml}</div>
             </div>
-             <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-lg font-semibold">✨ تحلیل هوشمند گزارش</h3>
-                    <div class="flex items-center gap-2">
-                        <button id="aiAnalysisBtn" data-report-id="${report.id}" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 text-sm">شروع تحلیل</button>
-                        <button id="ttsPlayBtn" class="px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 hidden"><i class="fas fa-volume-up"></i></button>
-                    </div>
-                </div>
-                <div id="aiAnalysisResult" class="mt-3 text-sm text-gray-700 whitespace-pre-wrap" aria-live="polite"></div>
-            </div>
-            <div class="flex justify-end mt-6">
-                 <button id="downloadPdfBtn" data-report-id="${report.id}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"><i class="fas fa-file-pdf mr-2"></i> دانلود PDF</button>
+             <div class="mt-6 flex justify-end">
                  <button class="modal-close-btn px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 mr-2">بستن</button>
             </div>
         `;
 
         document.getElementById('viewReportModal').style.display = 'flex';
-        document.getElementById('downloadPdfBtn').addEventListener('click', generatePdf);
-        document.getElementById('aiAnalysisBtn').addEventListener('click', handleAiReportAnalysis);
-        document.querySelectorAll('#viewReportModal .modal-close-btn').forEach(btn => btn.addEventListener('click', () => document.getElementById('viewReportModal').style.display = 'none'));
-    }
-
-    async function handleAiReportAnalysis(e) {
-        const button = e.currentTarget;
-        const ttsButton = document.getElementById('ttsPlayBtn');
-        ttsButton.classList.add('hidden');
-        const reportId = button.dataset.reportId;
-        const resultContainer = document.getElementById('aiAnalysisResult');
-        resultContainer.textContent = ''; 
-
-        const report = AppState.reports.find(r => r.id == reportId);
-        if (!report) return;
-        
-        const project = AppState.projects.find(p => p.id === report.projectId);
-
-        const defectiveItems = Object.entries(report.data.checklist)
-            .filter(([_, status]) => status === 'مورد دارد')
-            .map(([item, _]) => item);
-
-        let reportSummary = `خلاصه گزارش برای نیروگاه "${project?.name}":\n`;
-        if (defectiveItems.length > 0) {
-            reportSummary += `موارد دارای نقص: ${defectiveItems.join(', ')}.\n`;
-        } else {
-            reportSummary += `هیچ نقص عمده‌ای در چک‌لیست گزارش نشده است.\n`;
-        }
-        reportSummary += `توضیحات سرپرست: ${report.data.defectsDescription}\n`;
-        if (report.data.measurements && report.data.measurements.length > 0) {
-            reportSummary += `برخی از اندازه‌گیری‌ها: ${JSON.stringify(report.data.measurements.slice(0, 3))}\n`;
-        }
-
-        const prompt = `به عنوان یک مدیر فنی ارشد در شرکت نگهداری نیروگاه‌های خورشیدی، گزارش زیر را تحلیل کن. یک خلاصه مدیریتی ۲-۳ جمله‌ای از وضعیت کلی نیروگاه ارائه بده و سپس یک لیست اولویت‌بندی شده از اقدامات پیشنهادی برای رفع نواقص را به صورت یک لیست شماره‌گذاری شده بنویس. پاسخ حتما به زبان فارسی باشد.\n\n${reportSummary}`;
-        
-        const analysisText = await callGeminiTextAPI(prompt, [], button);
-        resultContainer.textContent = analysisText;
-        
-        if(analysisText && !analysisText.startsWith('خطا')) {
-            ttsButton.classList.remove('hidden');
-            ttsButton.onclick = () => callGeminiTtsAPI(analysisText, ttsButton);
-        }
-    }
-    
-    // PDF Generation
-    async function generatePdf(e) {
-        const { jsPDF } = window.jspdf;
-        const reportId = e.target.dataset.reportId;
-        const report = AppState.reports.find(r => r.id == reportId);
-        if (!report) return;
-        const project = AppState.projects.find(p => p.id === report.projectId);
-        
-        const doc = new jsPDF();
-        doc.setFont('Helvetica'); 
-        const reversedText = (text) => text ? text.split('').reverse().join('') : '';
-        
-        const gDate = new Date(report.date);
-        const jDate = jalaali.toJalaali(gDate.getFullYear(), gDate.getMonth() + 1, gDate.getDate());
-        const formattedDate = `${jDate.jy}/${jDate.jm}/${jDate.jd}`;
-
-        doc.text(reversedText('گزارش سرویس و نگهداری'), 105, 20, { align: 'center' });
-        doc.text(reversedText(`:نام پروژه`), 190, 40, { align: 'right' });
-        doc.text(reversedText(project?.name), 150, 40, { align: 'right' });
-        doc.text(reversedText(`:تاریخ`), 190, 50, { align: 'right' });
-        doc.text(formattedDate, 150, 50, { align: 'right' });
-
-        doc.autoTable({
-            startY: 60,
-            head: [[reversedText('وضعیت'), reversedText('مورد')]],
-            body: Object.entries(report.data.checklist).map(([item, status]) => [reversedText(status), reversedText(item)]),
-             styles: { font: 'Helvetica', halign: 'right' },
-             headStyles: { fillColor: [41, 128, 185] }
-        });
-        doc.save(`Report-${project?.name}.pdf`);
+        document.querySelector('#viewReportModal .modal-close-btn').addEventListener('click', () => document.getElementById('viewReportModal').style.display = 'none');
     }
 
     // --- MODALS (Project, User, Confirm) ---
@@ -1346,31 +1147,27 @@
         document.getElementById('addUserBtn').addEventListener('click', () => openUserModal());
 
         document.querySelectorAll('.modal-close-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.currentTarget.closest('.modal').style.display = 'none';
-            });
+            btn.addEventListener('click', (e) => e.currentTarget.closest('.modal').style.display = 'none');
         });
 
         document.getElementById('projectForm').addEventListener('submit', saveProject);
         document.getElementById('userForm').addEventListener('submit', saveUser);
         document.getElementById('confirmAssign').addEventListener('click', confirmAssignHandler);
+        document.getElementById('confirmDeleteBtn').addEventListener('click', confirmDeleteHandler);
     }
     
     function openProjectModal(id = null) {
         const modal = document.getElementById('projectModal');
         const form = document.getElementById('projectForm');
         form.reset();
+        document.getElementById('projectId').value = id || '';
+        document.getElementById('projectModalTitle').textContent = id ? 'ویرایش پروژه' : 'افزودن پروژه جدید';
         if(id) {
             const project = AppState.projects.find(p => p.id === id);
-            document.getElementById('projectModalTitle').textContent = 'ویرایش پروژه';
-            document.getElementById('projectId').value = project.id;
             document.getElementById('projectName').value = project.name;
             document.getElementById('projectGroup').value = project.group;
             document.getElementById('projectCapacity').value = project.capacity;
             document.getElementById('projectYear').value = project.year;
-        } else {
-            document.getElementById('projectModalTitle').textContent = 'افزودن پروژه جدید';
-            document.getElementById('projectId').value = '';
         }
         modal.style.display = 'flex';
     }
@@ -1384,35 +1181,24 @@
             capacity: parseInt(document.getElementById('projectCapacity').value),
             year: parseInt(document.getElementById('projectYear').value),
         };
-
-        if(id) {
-            await setDoc(doc(db, projectsPath, id), projectData);
-        } else {
-            await addDoc(collection(db, projectsPath), projectData);
-        }
-        
+        const docRef = id ? doc(db, projectsPath, id) : doc(collection(db, projectsPath));
+        await setDoc(docRef, projectData, { merge: !!id });
         document.getElementById('projectModal').style.display = 'none';
-        // UI updates via onSnapshot
     }
     
     function openUserModal(id = null) {
         const modal = document.getElementById('userModal');
         const form = document.getElementById('userForm');
         form.reset();
+        document.getElementById('userId').value = id || '';
+        document.getElementById('userModalTitle').textContent = id ? 'ویرایش کاربر' : 'افزودن کاربر جدید';
         const passwordInput = document.getElementById('userPassword');
-        passwordInput.placeholder = '';
+        passwordInput.required = !id;
+        passwordInput.placeholder = id ? 'در صورت عدم تغییر، خالی بگذارید' : '';
         if(id) {
             const user = AppState.users.find(u => u.id === id);
-            document.getElementById('userModalTitle').textContent = 'ویرایش کاربر';
-            document.getElementById('userId').value = user.id;
             document.getElementById('userUsername').value = user.username;
             document.getElementById('userRole').value = user.role;
-            passwordInput.required = false;
-            passwordInput.placeholder = 'در صورت عدم تغییر، خالی بگذارید';
-        } else {
-            document.getElementById('userModalTitle').textContent = 'افزودن کاربر جدید';
-            document.getElementById('userId').value = '';
-            passwordInput.required = true;
         }
         modal.style.display = 'flex';
     }
@@ -1425,52 +1211,34 @@
             username: document.getElementById('userUsername').value,
             role: document.getElementById('userRole').value,
         };
-        
-        if (password && password.trim() !== '') {
-             userData.password = password;
-        }
+        if (password) userData.password = password;
 
-        if(id) {
-            const userRef = doc(db, usersPath, id);
-            // Don't overwrite password if it's not provided
-            if (!userData.password) {
-                const existingUser = AppState.users.find(u => u.id === id);
-                userData.password = existingUser.password;
-            }
-            await setDoc(userRef, userData);
-        } else {
-            await addDoc(collection(db, usersPath), userData);
-        }
-        
+        const docRef = id ? doc(db, usersPath, id) : doc(collection(db, usersPath));
+        await setDoc(docRef, userData, { merge: !!id });
         document.getElementById('userModal').style.display = 'none';
-        // UI updates via onSnapshot
     }
 
     let itemToDelete = { type: null, id: null };
     function openConfirmModal(type, id, text = 'آیا از حذف این مورد اطمینان دارید؟') {
-        itemToDelete = { type, id: id };
+        itemToDelete = { type, id };
         document.getElementById('confirmModalText').textContent = text;
         document.getElementById('confirmModal').style.display = 'flex';
     }
-
-    document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+    async function confirmDeleteHandler() {
         if(!itemToDelete.id) return;
-
-        let docRef;
-        if(itemToDelete.type === 'project') docRef = doc(db, projectsPath, itemToDelete.id);
-        else if (itemToDelete.type === 'user') docRef = doc(db, usersPath, itemToDelete.id);
-        else if (itemToDelete.type === 'serviceEvent') docRef = doc(db, serviceEventsPath, itemToDelete.id);
-        
-        if(docRef) await deleteDoc(docRef);
-        
+        const paths = {
+            project: projectsPath,
+            user: usersPath,
+            serviceEvent: serviceEventsPath
+        };
+        await deleteDoc(doc(db, paths[itemToDelete.type], itemToDelete.id));
         document.getElementById('confirmModal').style.display = 'none';
-        // UI updates via onSnapshot
-    });
-
+    }
 
     // --- SUPERVISOR VIEW ---
     function initializeAppSupervisor() {
         document.getElementById('logoutButtonSupervisor').addEventListener('click', logout);
+        document.getElementById('prioritizeTasksBtn').addEventListener('click', handlePrioritizeTasks);
         showSupervisorPage('taskList');
     }
     
@@ -1479,38 +1247,38 @@
         document.getElementById('reportFormContainer').classList.toggle('hidden', pageId !== 'reportForm');
         if(pageId === 'taskList') loadSupervisorTasks();
     }
-
+    
     function loadSupervisorTasks() {
-        const taskListContainer = document.getElementById('taskList');
-        taskListContainer.innerHTML = '';
         const today = getTodayDateString();
+        const myEvents = AppState.serviceEvents.filter(e => e.supervisorId == currentUser.id && e.date === today);
         
-        const myEvents = AppState.serviceEvents.filter(e => {
-            return e.supervisorId == currentUser.id && e.date === today;
-        });
-
-        if (myEvents.length === 0) {
+        myTasksCache = myEvents.flatMap(event => 
+            (Array.isArray(event.projects) ? event.projects : []).map(projectId => {
+                const project = AppState.projects.find(p => p.id == projectId);
+                if (!project) return null;
+                const isReported = AppState.reports.some(r => r.projectId == projectId && r.date === today);
+                return { ...project, isReported };
+            })
+        ).filter(Boolean);
+        
+        renderSupervisorTasks(myTasksCache);
+    }
+    
+    function renderSupervisorTasks(tasks) {
+        const taskListContainer = document.getElementById('taskList');
+        const prioritizeBtn = document.getElementById('prioritizeTasksBtn');
+        
+        if (tasks.length === 0) {
+            prioritizeBtn.classList.add('hidden');
             taskListContainer.innerHTML = '<p class="text-center text-gray-500 mt-8">امروز وظیفه‌ای برای شما ثبت نشده است.</p>';
             return;
         }
-
-        let myTasks = [];
-        myEvents.forEach(event => {
-            if (!Array.isArray(event.projects)) return;
-            event.projects.forEach(projectId => {
-                const project = AppState.projects.find(p => p.id == projectId);
-                 if (project) {
-                    const isReported = AppState.reports.some(r => r.projectId == projectId && r.date === today);
-                    if(!myTasks.some(t => t.id === project.id)) { // Avoid duplicates
-                        myTasks.push({ ...project, isReported });
-                    }
-                 }
-            });
-        });
-
-        myTasks.forEach(task => {
-            const card = `
-                <div class="bg-white p-4 rounded-lg shadow-md mb-4 flex justify-between items-center">
+        
+        prioritizeBtn.classList.toggle('hidden', tasks.length <= 1);
+        taskListContainer.innerHTML = tasks.map(task => {
+            const priorityClass = task.priority ? `priority-${task.priority.toLowerCase()}` : '';
+            return `
+                <div class="bg-white p-4 rounded-lg shadow-md mb-4 flex justify-between items-center task-card ${priorityClass}">
                     <div><h3 class="font-bold text-lg">${task.name}</h3><p class="text-sm text-gray-600">${task.group}</p></div>
                     ${task.isReported 
                         ? `<span class="text-green-600 font-semibold"><i class="fas fa-check-circle ml-2"></i>ثبت شده</span>`
@@ -1518,41 +1286,77 @@
                     }
                 </div>
             `;
-            taskListContainer.insertAdjacentHTML('beforeend', card);
-        });
+        }).join('');
 
-        document.querySelectorAll('.start-report-btn').forEach(btn => {
+        taskListContainer.querySelectorAll('.start-report-btn').forEach(btn => {
             btn.addEventListener('click', e => renderReportForm(e.target.dataset.projectId));
         });
     }
 
+    async function handlePrioritizeTasks(e) {
+        const button = e.currentTarget;
+        if (myTasksCache.length <= 1) return;
+
+        const tasksForPrompt = myTasksCache.map(task => {
+            const pastIssues = AppState.reports
+                .filter(r => r.projectId === task.id && r.status !== 'approved')
+                .flatMap(r => Object.keys(r.data.checklist).filter(item => r.data.checklist[item] === 'مورد دارد'));
+            return { id: task.id, name: task.name, capacity: task.capacity, past_issues: [...new Set(pastIssues)] };
+        });
+        
+        const prompt = `شما یک مدیر فنی متخصص در زمینه نگهداری نیروگاه خورشیدی هستید. لیست وظایف روزانه زیر را برای سرپرست اولویت‌بندی کن. ظرفیت بالاتر و سابقه نقص فنی باید اولویت بالاتری بگیرند.
+        پاسخ را فقط و فقط به صورت یک آرایه JSON از شناسه‌ها (id) به ترتیب اولویت از زیاد به کم برگردان. هیچ متن اضافی یا توضیحی اضافه نکن.
+        مثال خروجی: ["id3", "id1", "id2"]
+        
+        لیست وظایف برای اولویت‌بندی:
+        ${JSON.stringify(tasksForPrompt, null, 2)}`;
+
+        try {
+            const result = await callGeminiTextAPI(prompt, [], button);
+            const prioritizedIds = JSON.parse(result.trim().replace(/```json|```/g, ''));
+            if (!Array.isArray(prioritizedIds)) throw new Error("Invalid response format");
+            
+            const priorityOrder = { 'High': 1, 'Medium': 2, 'Low': 3 };
+            const priorities = ["High", "Medium", "Low"];
+            
+            myTasksCache.forEach(task => {
+                const index = prioritizedIds.indexOf(task.id);
+                task.priority = (index !== -1 && index < priorities.length) ? priorities[index] : null;
+            });
+            
+            myTasksCache.sort((a, b) => (priorityOrder[a.priority] || 4) - (priorityOrder[b.priority] || 4));
+            renderSupervisorTasks(myTasksCache);
+        } catch (error) {
+            console.error("Error parsing or applying priority:", error);
+            alert("خطا در پردازش اولویت‌بندی هوشمند. لطفاً دوباره تلاش کنید.");
+        }
+    }
+
     function renderReportForm(projectId) {
-        currentReportData.projectId = projectId;
+        currentReportData = { projectId, checklist: {}, measurements: [], defectsDescription: '', photos: [] };
         const project = AppState.projects.find(p => p.id === projectId);
         const formContainer = document.getElementById('reportFormContainer');
         
-        let checklistHtml = '';
-        AppState.checklistItems.forEach((item, index) => {
+        const checklistHtml = AppState.checklistItems.map((item, index) => {
             const itemId = `item_${index}`;
-            checklistHtml += `<div class="p-3 bg-gray-50 rounded-md border"><label class="block font-medium text-gray-800 mb-2">${index + 1}. ${item}</label><div class="flex gap-4"><label class="flex items-center"><input type="radio" name="${itemId}" value="انجام شد" class="form-radio h-5 w-5 text-green-600 checklist-item" required><span class="mr-2 text-green-700">انجام شد</span></label><label class="flex items-center"><input type="radio" name="${itemId}" value="مورد دارد" class="form-radio h-5 w-5 text-red-600 checklist-item" required><span class="mr-2 text-red-700">مورد دارد</span></label></div></div>`;
-        });
-
-        let measurementTableHtml = Array.from({length: 20}, (_, i) => `<tr><td class="px-2 py-2 border">${i+1}</td><td class="p-1 border"><input type="number" step="0.1" data-string="${i+1}" data-type="voltage" class="w-full p-1 border rounded-md measurement-input"></td><td class="p-1 border"><input type="number" step="0.1" data-string="${i+1}" data-type="current" class="w-full p-1 border rounded-md measurement-input"></td></tr>`).join('');
+            return `<div class="p-3 bg-gray-50 rounded-md border">
+                <label class="block font-medium text-gray-800 mb-2">${index + 1}. ${item}</label>
+                <div class="flex gap-4">
+                    <label class="flex items-center"><input type="radio" name="${itemId}" value="انجام شد" class="form-radio h-5 w-5 text-green-600 checklist-item" required><span class="mr-2 text-green-700">انجام شد</span></label>
+                    <label class="flex items-center"><input type="radio" name="${itemId}" value="مورد دارد" class="form-radio h-5 w-5 text-red-600 checklist-item" required><span class="mr-2 text-red-700">مورد دارد</span></label>
+                </div>
+            </div>`;
+        }).join('');
         
         formContainer.innerHTML = `
              <div class="bg-white p-6 rounded-lg shadow-md">
                 <div class="flex justify-between items-center border-b pb-4 mb-4"><h2 class="text-2xl font-bold">فرم گزارش سرویس: ${project.name}</h2><button id="backToListBtn" class="text-gray-600 hover:text-indigo-600"><i class="fas fa-arrow-right ml-2"></i> بازگشت به لیست</button></div>
                 <form id="serviceReportForm" class="space-y-6">
                     <div><h3 class="text-xl font-semibold mb-3">چک‌لیست اصلی</h3><div class="space-y-4">${checklistHtml}</div></div>
-                    <div><h3 class="text-xl font-semibold mb-3">جدول اندازه‌گیری</h3><div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200 border"><thead class="bg-gray-100"><tr><th class="px-2 py-2 text-right font-medium">استرینگ</th><th class="px-2 py-2 text-right font-medium">ولتاژ (V)</th><th class="px-2 py-2 text-right font-medium">جریان (A)</th></tr></thead><tbody>${measurementTableHtml}</tbody></table></div></div>
                     <div>
-                         <div class="flex justify-between items-center mb-3">
-                            <label for="defectsDescription" class="block text-xl font-semibold">توضیحات نواقص</label>
-                            <button type="button" id="aiDescriptionBtn" class="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200" disabled>✨ تولید گزارش با هوش مصنوعی</button>
-                        </div>
+                        <label for="defectsDescription" class="block text-xl font-semibold mb-3">توضیحات نواقص</label>
                         <textarea id="defectsDescription" rows="4" class="w-full p-2 border rounded-md" required></textarea>
                     </div>
-                    <div><label class="block text-xl font-semibold mb-3">آپلود عکس</label><input type="file" id="photoUpload" multiple accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"><div id="photoPreview" class="mt-4 flex flex-wrap gap-4"></div></div>
                     <div class="pt-4 border-t"><button id="submitReportBtn" type="submit" class="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 disabled:bg-gray-400" disabled>ارسال نهایی</button></div>
                 </form>
             </div>
@@ -1560,112 +1364,35 @@
         
         document.getElementById('backToListBtn').addEventListener('click', () => showSupervisorPage('taskList'));
         document.getElementById('serviceReportForm').addEventListener('submit', submitReport);
-        document.getElementById('photoUpload').addEventListener('change', handlePhotoPreview);
-        document.getElementById('aiDescriptionBtn').addEventListener('click', handleAiDescriptionHelp);
-        
-        const form = document.getElementById('serviceReportForm');
-        form.addEventListener('change', () => {
-             const checklistItemsChecked = form.querySelectorAll('.checklist-item:checked');
-             document.getElementById('submitReportBtn').disabled = checklistItemsChecked.length !== AppState.checklistItems.length;
-             
-             const defectiveItems = form.querySelectorAll('.checklist-item[value="مورد دارد"]:checked');
-             document.getElementById('aiDescriptionBtn').disabled = defectiveItems.length === 0 && currentReportData.photos.length === 0;
+        document.getElementById('serviceReportForm').addEventListener('change', () => {
+             const allChecklistsAnswered = AppState.checklistItems.length === document.querySelectorAll('.checklist-item:checked').length;
+             document.getElementById('submitReportBtn').disabled = !allChecklistsAnswered;
         });
+
         showSupervisorPage('reportForm');
     }
     
-    async function handleAiDescriptionHelp(e) {
-        const button = e.currentTarget;
-        const defectiveItems = [];
-        AppState.checklistItems.forEach((item, index) => {
-            const radio = document.querySelector(`input[name="item_${index}"]:checked`);
-            if (radio && radio.value === 'مورد دارد') {
-                defectiveItems.push(item);
-            }
-        });
-
-        const project = AppState.projects.find(p => p.id === currentReportData.projectId);
-        let prompt = `شما یک کارشناس فنی ارشد در زمینه نگهداری نیروگاه‌های خورشیدی هستید. برای نیروگاه "${project.name}" یک توضیح فنی، خلاصه و حرفه‌ای به زبان فارسی برای درج در گزارش بنویس. فقط متن گزارش را بنویس و از اضافه کردن مقدمه یا عبارت‌های اضافی خودداری کن.\n`;
-
-        if (defectiveItems.length > 0) {
-            prompt += `گزارش باید بر اساس موارد دارای نقص زیر باشد: \n- ${defectiveItems.join('\n- ')}\n`;
-        }
-
-        if (currentReportData.photos.length > 0) {
-            prompt += `همچنین، عکس‌های پیوست شده را تحلیل کن و هرگونه نقص یا مشکل مشهود در آنها (مانند شکستگی پنل، سایه، مشکل در اتصالات) را در گزارش خود لحاظ کن.`;
-        }
-        
-        const generatedText = await callGeminiTextAPI(prompt, currentReportData.photos, button);
-        document.getElementById('defectsDescription').value = generatedText;
-    }
-
-
-    function handlePhotoPreview(event) {
-        const previewContainer = document.getElementById('photoPreview');
-        previewContainer.innerHTML = '';
-        currentReportData.photos = [];
-        document.getElementById('aiDescriptionBtn').disabled = document.querySelectorAll('.checklist-item[value="مورد دارد"]:checked').length === 0;
-
-        if (event.target.files.length > 5) {
-            alert("شما حداکثر می‌توانید ۵ عکس آپلود کنید.");
-            event.target.value = "";
-            return;
-        }
-
-        if (event.target.files.length > 0) {
-            document.getElementById('aiDescriptionBtn').disabled = false;
-        }
-
-        for (const file of event.target.files) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                const img = `<img src="${e.target.result}" class="w-24 h-24 object-cover rounded-md">`;
-                previewContainer.insertAdjacentHTML('beforeend', img);
-                currentReportData.photos.push(e.target.result);
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
     async function submitReport(e) {
         e.preventDefault();
         
-        currentReportData.checklist = {};
         AppState.checklistItems.forEach((item, index) => {
-            const checkedRadio = document.querySelector(`input[name="item_${index}"]:checked`);
-            if (checkedRadio) {
-                currentReportData.checklist[item] = checkedRadio.value;
-            }
+            const radio = document.querySelector(`input[name="item_${index}"]:checked`);
+            if (radio) currentReportData.checklist[item] = radio.value;
         });
-
-        currentReportData.measurements = [];
-        document.querySelectorAll('.measurement-input').forEach(input => {
-             if (input.value) {
-                const string = input.dataset.string;
-                const type = input.dataset.type;
-                let entry = currentReportData.measurements.find(m => m.string === string);
-                if (!entry) {
-                    entry = { string: string };
-                    currentReportData.measurements.push(entry);
-                }
-                entry[type] = parseFloat(input.value);
-            }
-        });
-        currentReportData.measurements = currentReportData.measurements.filter(m => m.voltage || m.current);
         currentReportData.defectsDescription = document.getElementById('defectsDescription').value;
         
-        const newReport = {
+        await addDoc(collection(db, reportsPath), {
             projectId: currentReportData.projectId,
             supervisorId: currentUser.id,
             date: getTodayDateString(),
             status: 'pending',
-            data: { ...currentReportData, projectId: undefined }
-        };
-        
-        await addDoc(collection(db, reportsPath), newReport);
+            data: { 
+                checklist: currentReportData.checklist,
+                defectsDescription: currentReportData.defectsDescription
+            }
+        });
 
         alert('گزارش با موفقیت ثبت شد!');
-        currentReportData = { projectId: null, checklist: {}, measurements: [], defectsDescription: '', photos: [] };
         showSupervisorPage('taskList');
     }
 
@@ -1673,12 +1400,12 @@
     function setupRealtimeListeners() {
         onSnapshot(query(collection(db, usersPath)), (snapshot) => {
             AppState.users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            if (currentUser?.role === 'admin') loadUsersTable();
+            if (currentUser?.role === 'admin' && document.getElementById('adminUsers').checkVisibility()) loadUsersTable();
         });
 
         onSnapshot(query(collection(db, projectsPath)), (snapshot) => {
             AppState.projects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-             if (currentUser?.role === 'admin') loadProjectsTable();
+            if (currentUser?.role === 'admin' && document.getElementById('adminProjects').checkVisibility()) loadProjectsTable();
         });
 
         onSnapshot(query(collection(db, serviceEventsPath)), (snapshot) => {
@@ -1703,70 +1430,76 @@
         });
     }
 
-    // --- INITIALIZE APP ---
-    async function initializeAndRunApp(config) {
+    // --- Main Application Entry Point ---
+    async function main() {
         try {
-            app = initializeApp(config);
+            // Use environment variables for configuration, with a fallback for local dev
+            const firebaseConfigStr = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
+            const firebaseConfig = JSON.parse(firebaseConfigStr);
+            if (!firebaseConfig.apiKey) {
+                 throw new Error("Firebase configuration is missing or invalid.");
+            }
+
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'dadmann-service-dev';
+
+            // Define dynamic Firestore paths
+            usersPath = `/artifacts/${appId}/public/data/users`;
+            projectsPath = `/artifacts/${appId}/public/data/projects`;
+            serviceEventsPath = `/artifacts/${appId}/public/data/serviceEvents`;
+            reportsPath = `/artifacts/${appId}/public/data/reports`;
+
+            // Initialize Firebase services
+            app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             auth = getAuth(app);
-
-            const authReadyPromise = new Promise((resolve, reject) => {
-                const unsubscribe = onAuthStateChanged(auth, user => {
+            
+            // Wait for authentication state to be determined
+            await new Promise((resolve, reject) => {
+                const unsubscribe = onAuthStateChanged(auth, async (user) => {
                     unsubscribe();
-                    resolve(user);
+                    if (user) {
+                        resolve(user);
+                        return;
+                    }
+                    // If no user, attempt sign-in
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                        resolve(auth.currentUser);
+                    } catch (authError) {
+                        console.error("Authentication failed:", authError);
+                        // Show the specific error page for common configuration issues
+                        if (['auth/configuration-not-found', 'auth/network-request-failed', 'auth/unauthorized-domain'].includes(authError.code)) {
+                            document.getElementById('loadingSpinner').style.display = 'none';
+                            document.getElementById('authErrorPage').style.display = 'flex';
+                        }
+                        reject(authError); // Stop execution on auth failure
+                    }
                 }, reject);
             });
 
-            if (!auth.currentUser) {
-                 try {
-                    await signInAnonymously(auth);
-                 } catch(authError) {
-                    console.error("Anonymous sign-in failed specifically:", authError);
-                    if (authError.code === 'auth/configuration-not-found') {
-                         document.getElementById('loadingSpinner').style.display = 'none';
-                         document.getElementById('authErrorPage').style.display = 'flex';
-                         return; // Stop execution here
-                    }
-                    // For other auth errors, throw a generic message
-                    throw new Error(`احراز هویت اولیه ناموفق بود. خطای اصلی: ${authError.message}`);
-                 }
-            }
-            
-            await authReadyPromise;
-
+            // Once authenticated, proceed with the app
             await seedInitialData(); 
             setupRealtimeListeners();
             checkSession();
 
         } catch (e) {
-            console.error("Firebase initialization or subsequent operations failed:", e);
-            loadingSpinner.style.display = 'flex'; // Ensure spinner is visible for the error message
-            loadingSpinner.innerHTML = `<p class="text-red-500 p-4">خطا در اتصال به پایگاه داده. لطفا صفحه را مجددا بارگذاری کنید.<br><small class="text-gray-400">${e.message}</small></p>`;
-        }
-    }
-
-    async function main() {
-        const firebaseConfig = {
-          apiKey: "AIzaSyCNAetQbsvjK3khq_gYzW_ISt2gF1tjYlY",
-          authDomain: "dadmann-service.firebaseapp.com",
-          projectId: "dadmann-service",
-          storageBucket: "dadmann-service.appspot.com", 
-          messagingSenderId: "41537899804",
-          appId: "1:41537899804:web:385c09553df650bebffed9"
-        };
-        
-        if (firebaseConfig && firebaseConfig.apiKey) {
-            await initializeAndRunApp(firebaseConfig);
-        } else {
-             // This case should ideally not be reached with hardcoded config
-             loadingSpinner.innerHTML = `<p class="text-red-500 p-4">خطا: پیکربندی Firebase در کد موجود نیست.</p>`;
+            console.error("Application initialization failed:", e);
+            // Don't show generic error if specific auth error page is already shown
+            if (document.getElementById('authErrorPage').style.display !== 'flex') {
+                loadingSpinner.style.display = 'flex';
+                loadingSpinner.innerHTML = `<p class="text-red-500 p-4">خطا در بارگذاری برنامه. لطفاً صفحه را مجدداً بارگذاری کنید.<br><small class="text-gray-400">${e.message}</small></p>`;
+            }
         }
     }
     
+    // Run the application
     main();
 
 </script>
 
 </body>
 </html>
-

@@ -1433,14 +1433,39 @@
     // --- Main Application Entry Point ---
     async function main() {
         try {
-            // Use environment variables for configuration, with a fallback for local dev
-            const firebaseConfigStr = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
-            const firebaseConfig = JSON.parse(firebaseConfigStr);
-            if (!firebaseConfig.apiKey) {
-                 throw new Error("Firebase configuration is missing or invalid.");
+            let firebaseConfig;
+            let appId;
+
+            // First, try to use environment variables provided by the platform
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                try {
+                    const config = JSON.parse(__firebase_config);
+                    if (config.apiKey) {
+                        firebaseConfig = config;
+                        appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                    }
+                } catch (e) {
+                    console.error("Could not parse injected __firebase_config", e);
+                }
             }
 
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'dadmann-service-dev';
+            // If environment variables are not available or invalid, use a hardcoded fallback
+            if (!firebaseConfig) {
+                console.warn("Using hardcoded Firebase config. This is intended for standalone deployment like GitHub Pages.");
+                firebaseConfig = {
+                    apiKey: "AIzaSyCNAetQbsvjK3khq_gYzW_ISt2gF1tjYlY", // Hardcoded from original user file
+                    authDomain: "dadmann-service.firebaseapp.com",
+                    projectId: "dadmann-service",
+                    storageBucket: "dadmann-service.appspot.com",
+                    messagingSenderId: "41537899804",
+                    appId: "1:41537899804:web:385c09553df650bebffed9"
+                };
+                appId = 'dadmann-service-standalone';
+            }
+            
+            if (!firebaseConfig || !firebaseConfig.apiKey) {
+                 throw new Error("Firebase configuration is missing or invalid.");
+            }
 
             // Define dynamic Firestore paths
             usersPath = `/artifacts/${appId}/public/data/users`;
@@ -1503,3 +1528,4 @@
 
 </body>
 </html>
+
